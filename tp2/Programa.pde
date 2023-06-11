@@ -2,19 +2,30 @@ class Programa {
   //Clases
   String estado;
   Menu menu;
+  Acoso acoso;
 
 
   Programa() {
     estado = "menu";
     menu = new Menu();
+    acoso = new Acoso();
   }
 
   //Funciones
   void actualizar() {
-    menu.actualizar();
+    if(estado.equals("menu")){
+      menu.actualizar();
+    }
+    if(estado.equals("Acoso")){
+      acoso.actualizar();
+    }
   }
 
   void click() {
-    menu.clickBoton();
+    
+     if(estado.equals("menu")){
+       menu.clickBoton();
+    }
+   
   }
 }
