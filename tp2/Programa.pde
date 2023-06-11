@@ -1,5 +1,5 @@
-class Programa {   
-  //Clases  
+class Programa {
+  //Clases
   String estado;
   Menu menu;
 
@@ -14,4 +14,7 @@ class Programa {
     menu.actualizar();
   }
 
+  void click() {
+    menu.clickBoton();
+  }
 }
