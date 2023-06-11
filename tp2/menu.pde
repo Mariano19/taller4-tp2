@@ -62,7 +62,7 @@ class Menu {
 
       // Dibujar la etiqueta del botón
       textAlign(CENTER, CENTER);
-      fill(0);
+      fill(255);
       text(label, x, y, width, height);
     }
 
