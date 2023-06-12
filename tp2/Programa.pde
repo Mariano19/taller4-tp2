@@ -2,13 +2,13 @@ class Programa {
   //Clases
   String estado;
   Menu menu;
-  Acoso acoso;
+  Vanidad vanidad;
 
 
   Programa() {
     estado = "menu";
     menu = new Menu();
-    acoso = new Acoso();
+    vanidad = new Vanidad();
   }
 
   //Funciones
@@ -16,8 +16,8 @@ class Programa {
     if(estado.equals("menu")){
       menu.actualizar();
     }
-    if(estado.equals("Acoso")){
-      acoso.actualizar();
+    if(estado.equals("Vanidad")){
+      vanidad.actualizar();
     }
   }
 
@@ -26,6 +26,17 @@ class Programa {
      if(estado.equals("menu")){
        menu.clickBoton();
     }
+      if(estado.equals("Vanidad")){
+       vanidad.click();
+    }
    
+  }
+  
+  void teclado(){
+    //Para volver al menu apretar tecla B
+     if (key == 'b' || key == 'B') {
+      estado = "menu";
+      println("Estado:" + programa.estado);
+    }
   }
 }
