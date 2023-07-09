@@ -3,12 +3,14 @@ class Programa {
   String estado;
   Menu menu;
   Vanidad vanidad;
+  Desamparo desamparo;
 
 
   Programa() {
     estado = "menu";
     menu = new Menu();
     vanidad = new Vanidad();
+    desamparo = new Desamparo();
   }
 
   //Funciones
@@ -19,6 +21,9 @@ class Programa {
     if(estado.equals("Vanidad")){
       vanidad.actualizar();
     }
+    if(estado.equals("Desamparo")){
+      desamparo.actualizar();
+    }
   }
 
   void click() {
@@ -28,6 +33,9 @@ class Programa {
     }
       if(estado.equals("Vanidad")){
        vanidad.click();
+    }
+      if(estado.equals("Desamparo")){
+       desamparo.click();
     }
    
   }
