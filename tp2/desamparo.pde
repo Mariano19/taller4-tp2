@@ -1,6 +1,6 @@
 class Desamparo {
-  float anchoPersonaje = 55;
-  float altoPersonaje = 61;
+  float anchoPersonaje = 60;
+  float altoPersonaje = 60;
 
   float anchoOrbita = 500;
   float altoOrbita = 500;
@@ -12,6 +12,9 @@ class Desamparo {
   float vel;
   
   boolean allowRotate = false;
+  //PGraphics pg;
+  
+  
 
   Desamparo() {
     // Initial values
@@ -19,11 +22,12 @@ class Desamparo {
     vel = 0;
     radiusX = 200; // Orbit width
     radiusY = 200; // Orbit height
+    //pg = createGraphics(60, 60);
   }
 
   void actualizar() {
-    debug();
-    
+    //Standarts values
+    debug();    
     fill(255, 0, 0);
     text("DESAMPARO", width/2, 10);
 
@@ -34,27 +38,40 @@ class Desamparo {
     ellipse(width/2, height/2, 400, 400);
     popStyle();
 
-    //Órbita mayor
-    pushStyle();
-    pushMatrix();
-    
+    // global translation to center
+    imageMode(CORNER);
+    translate(width/2, height/2);
 
     // Moving object
     posX = radiusX * cos( vel );
     posY = radiusY * sin( vel );
-      
-    translate(width/2, height/2);
     
-    // rotate(radians(frameCount));
 
     // Dibujar la imagen
     fill( 255 );
-    ellipse( posX, posY, 10, 10 );
-    imageMode(CENTER);
-    //image(personaje, posX, posY, anchoPersonaje, altoPersonaje);    
+    //ellipse( posX, posY, 10, 10 );
+    //pg.beginDraw();
+    //pg.imageMode(CENTER);
+    //pg.translate(30, 30);
+    //pg.rotate(radians(frameCount));    
+    //pg.image(personaje, 30, 0, anchoPersonaje, altoPersonaje);   
+    //pg.endDraw();
+    
+    //image(pg, width/2, height/2);
+    image(personaje, posX-anchoPersonaje/2, posY-altoPersonaje/2, anchoPersonaje, altoPersonaje);
+    
+    
+    
+    pushStyle();
+    pushMatrix();
+    //rotate(radians(frameCount));
+    
+    //image(personaje, posX-anchoPersonaje/2, posY-altoPersonaje/2, anchoPersonaje, altoPersonaje);
+    //image(personaje, 0-anchoPersonaje/2, 0-altoPersonaje/2, anchoPersonaje, altoPersonaje);    
     //image(orbitaVanidad, 0, 0, anchoOrbita, altoOrbita); // Cambia las dimensiones de acuerdo a tus necesidades
     popStyle();
     popMatrix();
+    
     
     // Logic left and right
     if (mousePressed) {
