@@ -2,13 +2,14 @@ Programa programa;
 PImage bg;
 PImage personaje;
 PImage orbitaVanidad;
+PImage estrella;
 
 
 void setup () {
   size (1920/2, 1080/2);
   bg = loadImage("/assets/bg.jpg");
   personaje = loadImage("/assets/personaje.png");
- 
+ estrella = loadImage("/assets/estrella.png");
   orbitaVanidad = loadImage("/assets/orbitavanidad.png");
   bg.resize(1920/2, 0);
   orbitaVanidad.resize(1920/4, 0);

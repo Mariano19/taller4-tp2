@@ -5,7 +5,7 @@ class Programa {
   Vanidad vanidad;
   Desamparo desamparo;
   Timidez timidez;
-
+  Acoso acoso; 
 
   Programa() {
     estado = "menu";
@@ -13,6 +13,7 @@ class Programa {
     vanidad = new Vanidad();
     desamparo = new Desamparo();
     timidez = new Timidez();
+    acoso = new Acoso();
   }
 
   //Funciones
@@ -28,6 +29,9 @@ class Programa {
     }
     if(estado.equals("Timidez")){
       timidez.actualizar();
+    }
+        if(estado.equals("Acoso")){
+      acoso.actualizar();
     }
   }
 
