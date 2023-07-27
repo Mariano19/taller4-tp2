@@ -22,7 +22,7 @@ void draw () {
   background(0);
   pushStyle();
   tint(255, 100);  // Apply transparency without changing color
-  image(bg, 0, 0);
+  //image(bg, 0, 0);
   popStyle();
   programa.actualizar();
 }

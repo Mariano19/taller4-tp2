@@ -4,6 +4,7 @@ class Programa {
   Menu menu;
   Vanidad vanidad;
   Desamparo desamparo;
+  Timidez timidez;
 
 
   Programa() {
@@ -11,6 +12,7 @@ class Programa {
     menu = new Menu();
     vanidad = new Vanidad();
     desamparo = new Desamparo();
+    timidez = new Timidez();
   }
 
   //Funciones
@@ -23,6 +25,9 @@ class Programa {
     }
     if(estado.equals("Desamparo")){
       desamparo.actualizar();
+    }
+    if(estado.equals("Timidez")){
+      timidez.actualizar();
     }
   }
 
