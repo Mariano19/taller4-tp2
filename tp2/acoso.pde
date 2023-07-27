@@ -1,15 +1,13 @@
 class Acoso {
-  int orbitRadiusMenor = 100; // Radio de la órbita menor del cuadrado que sigue al mouse
-  int orbitRadiusMayor = 200; // Radio de la órbita mayor donde los 5 círculos están girando
+  int orbitRadiusMenor = 100; // Radio de la órbita menor
+  int orbitRadiusMayor = 200; // Radio de la órbita mayor 
   int numCircles = 5; // Número de círculos en la órbita mayor
-  float angleOffset = TWO_PI / numCircles; // Espaciado angular entre los círculos en la órbita mayor
-  float orbitSpeed = 0.01; // Velocidad angular de la órbita mayor
-
+  float angleOffset = TWO_PI / numCircles; // Espaciado entre los círculos en la órbita mayor
+  float orbitSpeed = 0.01; // Velocidad de la órbita mayor
   float minImageScale = 0.8; // Escala mínima de la imagen de los círculos
   float maxImageScale = 0.8; // Escala máxima de la imagen de los círculos
 
   Acoso() {
-  
     imageMode(CENTER);
   }
 
@@ -35,11 +33,11 @@ class Acoso {
     float distanceFromCenter = dist(0, 0, mouseXOffset, mouseYOffset);
 
     if (distanceFromCenter > orbitRadiusMenor) {
-      // Si el cuadrado está fuera de la circunferencia, ajustar su posición al borde del círculo
+ 
       mouseXOffset = mouseXOffset * orbitRadiusMenor / distanceFromCenter;
       mouseYOffset = mouseYOffset * orbitRadiusMenor / distanceFromCenter;
     } else {
-      // Si el cuadrado está dentro de la circunferencia, mantenerlo en el borde del círculo
+ 
       float angle = atan2(mouseYOffset, mouseXOffset);
       mouseXOffset = orbitRadiusMenor * cos(angle);
       mouseYOffset = orbitRadiusMenor * sin(angle);
@@ -53,15 +51,15 @@ class Acoso {
     // Dibujar los cinco círculos en la órbita mayor
     for (int i = 0; i < numCircles; i++) {
       float angle = i * angleOffset + frameCount * orbitSpeed;
-      float x = orbitRadiusMayor * cos(angle); // Usar solo orbitRadiusMayor para estar en la órbita mayor
-      float y = orbitRadiusMayor * sin(angle); // Usar solo orbitRadiusMayor para estar en la órbita mayor
-
-      // Calcular la escala de la imagen de los círculos en función de su posición en la órbita mayor
+      float x = orbitRadiusMayor * cos(angle); 
+      float y = orbitRadiusMayor * sin(angle);
+      
+      // Calcular la escala
       float distanceFromCenterMayor = dist(0, 0, x, y);
       float scale = map(distanceFromCenterMayor, 0, orbitRadiusMayor, maxImageScale, minImageScale);
       scale = constrain(scale, minImageScale, maxImageScale);
 
-      // Dibujar la imagen del círculo con la escala calculada
+      // Dibujar las estrellas
       pushMatrix();
       translate(x, y);
       image(estrella, 0, 0, estrella.width * scale, estrella.height * scale);
