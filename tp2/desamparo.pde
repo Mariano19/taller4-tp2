@@ -9,8 +9,8 @@ class Desamparo {
   float[] speed = new float[numStars];
   //boolean collision = false;
 
-  float anchoOrbita = 500;
-  float altoOrbita = 500;
+  float anchoOrbita = 400;
+  float altoOrbita = 400;
   float r = 0;
   
   // orbit declarations
@@ -50,7 +50,7 @@ class Desamparo {
     pushStyle();
     noFill();
     stroke(255);
-    ellipse(width/2, height/2, 400, 400);
+    ellipse(width/2, height/2, anchoOrbita, altoOrbita);
     popStyle();
 
     // global translation to center

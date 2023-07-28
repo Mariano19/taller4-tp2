@@ -1,6 +1,7 @@
 class Programa {
   //Clases
   String estado;
+  Caratula caratula;
   Menu menu;
   Vanidad vanidad;
   Desamparo desamparo;
@@ -8,7 +9,8 @@ class Programa {
   Acoso acoso; 
 
   Programa() {
-    estado = "menu";
+    estado = "caratula";
+    caratula = new Caratula();
     menu = new Menu();
     vanidad = new Vanidad();
     desamparo = new Desamparo();
@@ -18,6 +20,9 @@ class Programa {
 
   //Funciones
   void actualizar() {
+    if(estado.equals("caratula")){
+      caratula.actualizar();
+    }
     if(estado.equals("menu")){
       menu.actualizar();
     }
@@ -30,7 +35,7 @@ class Programa {
     if(estado.equals("Timidez")){
       timidez.actualizar();
     }
-        if(estado.equals("Acoso")){
+    if(estado.equals("Acoso")){
       acoso.actualizar();
     }
   }
