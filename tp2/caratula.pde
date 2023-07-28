@@ -2,7 +2,7 @@ class Caratula {
   float anchoOrbita = 400;
   float altoOrbita = 400;
   float r = 0;
-  int timeOut = 3000;
+  int timeOut = 1000;
   
   // orbit declarations
   float posX, posY;
