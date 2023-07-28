@@ -53,6 +53,7 @@ class Programa {
     //Para volver al menu apretar tecla B
      if (key == 'b' || key == 'B') {
       estado = "menu";
+      desamparo.reset();
       println("Estado:" + programa.estado);
     }
   }

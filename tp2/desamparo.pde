@@ -134,6 +134,15 @@ class Desamparo {
     }
   }
   
+  void reset() {
+    posX = posY = 0;
+    vel = 0;
+    for (int i=0; i<numStars; i++) {
+      collision[i] = false;  
+      speed[i] = random(0.5 , 2);
+    }
+  }
+  
   void debug(){
     pushStyle();
     textSize(14);
