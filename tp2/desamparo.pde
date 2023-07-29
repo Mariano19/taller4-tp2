@@ -52,11 +52,12 @@ class Desamparo {
     noFill();
     stroke(255);
     ellipse(width/2, height/2, anchoOrbita, altoOrbita);
-    popStyle();
+    
 
     // global translation to center
     imageMode(CORNER);
     translate(width/2, height/2);
+    
 
     // Moving object
     posX = radiusX * cos( vel );
@@ -122,6 +123,8 @@ class Desamparo {
         vel -= 0.01;
       }      
     }
+    
+    popStyle();
   }
   
   boolean computeCollision(float localX, float localY) {
