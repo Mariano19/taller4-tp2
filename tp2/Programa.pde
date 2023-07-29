@@ -7,6 +7,7 @@ class Programa {
   Desamparo desamparo;
   Timidez timidez;
   Acoso acoso; 
+  Desinteres desinteres;
 
   Programa() {
     estado = "caratula";
@@ -16,6 +17,7 @@ class Programa {
     desamparo = new Desamparo();
     timidez = new Timidez();
     acoso = new Acoso();
+    desinteres = new Desinteres();
   }
 
   //Funciones
@@ -37,6 +39,9 @@ class Programa {
     }
     if(estado.equals("Acoso")){
       acoso.actualizar();
+    }
+    if(estado.equals("Desinterés")){
+      desinteres.actualizar();
     }
   }
 
