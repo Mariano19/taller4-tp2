@@ -1,8 +1,8 @@
 class Desinteres {
 
-  int radioOrbita = 100; // Radio de la órbita
+  int radioOrbita = 200; // Radio de la órbita
   int numCirculos = 5;   // Número de círculos en el borde de la elipse
-  float cercaniaLimite = 31; // Distancia límite para mover los círculos
+  float cercaniaLimite = 10; // Distancia límite para mover los círculos
   float offsetFactor = 6; // Factor de ajuste del offset (puedes cambiar este valor)
 
   // Arreglo de objetos para almacenar los círculos en la órbita izquierda
@@ -13,8 +13,8 @@ class Desinteres {
   float y;
 
   //Personaje
-  int anchoPersonaje = 55;
-  int altoPersonaje = 60;
+  int anchoPersonaje = 120;
+  int altoPersonaje = 130;
   PGraphics pg;
 
   Desinteres() {

@@ -1,13 +1,13 @@
 class Acoso {
-  int orbitRadiusMenor = 100; // Radio de la órbita menor
-  int orbitRadiusMayor = 200; // Radio de la órbita mayor
+  int orbitRadiusMenor = 200; // Radio de la órbita menor
+  int orbitRadiusMayor = 400; // Radio de la órbita mayor
   int numCircles = 5; // Número de círculos en la órbita mayor
   float angleOffset = TWO_PI / numCircles; // Espaciado entre los círculos en la órbita mayor
   float orbitSpeed = 0.01; // Velocidad de la órbita mayor
-  float minImageScale = 0.8; // Escala mínima de la imagen de los círculos
-  float maxImageScale = 0.8; // Escala máxima de la imagen de los círculos
-  int anchoPersonaje = 55;
-  int altoPersonaje = 60;
+  float minImageScale = 1; // Escala mínima de la imagen de los círculos
+  float maxImageScale = 1; // Escala máxima de la imagen de los círculos
+  int anchoPersonaje = 120;
+  int altoPersonaje = 130;
   PGraphics pg;
 
   Acoso() {

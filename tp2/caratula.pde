@@ -1,8 +1,8 @@
 class Caratula {
-  float anchoOrbita = 400;
-  float altoOrbita = 400;
+  float anchoOrbita = 700;
+  float altoOrbita = 700;
   float r = 0;
-  int timeOut = 1000;
+  int timeOut = 2000;
   
   // orbit declarations
   float posX, posY;
@@ -14,8 +14,8 @@ class Caratula {
     // Initial values
     posX = posY = 0;
     vel = 0;
-    radiusX = 200; // Orbit width
-    radiusY = 200; // Orbit height
+    radiusX = 350; // Orbit width
+    radiusY = 350; // Orbit height
     
     imageMode(CENTER);
   }
@@ -33,9 +33,9 @@ class Caratula {
     fill(255);
     stroke(255);
     textAlign(CENTER, CENTER);
-    textSize(36);
-    text("TP 2", width/2, height/2-15);
-    textSize(14);
+    textSize(50);
+    text("TP 2", width/2, height/2-40);
+    textSize(25);
     text("FLORES, LOAYZA, ORELLANA, PINTO, QUATTROCCHI ", width/2, height/2+15);
     popStyle();
   }
@@ -59,7 +59,7 @@ class Caratula {
     fill(0);
     stroke(255);
     rotate(radians(frameCount/2)); 
-    ellipse( posX, posY, 15, 15 );
+    ellipse( posX, posY, 25, 25 );
     popStyle();
     popMatrix();
   }

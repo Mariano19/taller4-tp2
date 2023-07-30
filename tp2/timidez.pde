@@ -3,9 +3,9 @@ class Timidez {
   float orbitaRotation2 = 0; 
   float circleX = 0;
   float circleY = 0;
-  float delay = 0.2; // Ajusta este valor para cambiar la cantidad de retraso (0 a 1, donde 1 es sin retraso)
-    int anchoPersonaje = 55;
-  int altoPersonaje = 60;
+  float delay = 0.1; // Ajusta este valor para cambiar la cantidad de retraso (0 a 1, donde 1 es sin retraso)
+    int anchoPersonaje = 120;
+  int altoPersonaje = 130;
   PGraphics pg;
   
   Timidez() {
@@ -21,13 +21,13 @@ class Timidez {
     pushMatrix();
     translate(50, 50); 
     rotate(orbitaRotation1);
-    image(orbitaVanidad, 0, 0); 
+    image(orbitaVanidad, 0, 0, 800,800); 
     popMatrix();
 
     pushMatrix();
     translate(width - 50, height - 50); 
     rotate(orbitaRotation2);
-    image(orbitaVanidad, 0, 0); 
+    image(orbitaVanidad, 0, 0,800,800); 
     popMatrix();
 
     float targetX = mouseX;

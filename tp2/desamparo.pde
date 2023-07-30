@@ -1,17 +1,17 @@
 class Desamparo {
-  int anchoPersonaje = 55;
-  int altoPersonaje = 60;
+  int anchoPersonaje = 120;
+  int altoPersonaje = 130;
   //Num stars
   int numStars = 5;
-  int anchoEstrella = 100;
-  int altoEstrella = 100;
+  int anchoEstrella = 150;
+  int altoEstrella = 150;
 
   boolean[] collision = new boolean[numStars];  
   float[] speed = new float[numStars];
   float x, y;
   //boolean collision = false;
 
-  int radioOrbita = 200; // Radio de la órbita
+  int radioOrbita = 350; // Radio de la órbita
   float anchoOrbita = 400;
   float altoOrbita = 400;
   float r = 0;
@@ -29,8 +29,8 @@ class Desamparo {
   Desamparo() {
     // Initial values
     vel = 0;
-    radiusX = 200; // Orbit width
-    radiusY = 200; // Orbit height
+    radiusX = 350; // Orbit width
+    radiusY = 350; // Orbit height
     pg = createGraphics(anchoPersonaje, altoPersonaje); //PGraphics for the main element to allow self rotation
     pgEstrella = createGraphics(anchoEstrella, altoEstrella);
     
@@ -47,14 +47,14 @@ class Desamparo {
     pushMatrix();
     
     //Standarts values
-    debug();    
+    //debug();    
     fill(255, 0, 0);
-    text("DESAMPARO", width/2, 10);
+    //text("DESAMPARO", width/2, 10);
 
     //Órbit    
     noFill();
     stroke(255);
-    ellipse(width/2, height/2, anchoOrbita, altoOrbita);
+    //ellipse(width/2, height/2, anchoOrbita, altoOrbita);
     
 
     // global translation to center

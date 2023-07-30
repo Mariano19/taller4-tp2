@@ -1,9 +1,9 @@
 class Vanidad {
-  float anchoPersonaje = 55;
-  float altoPersonaje = 61;
+  float anchoPersonaje = 120;
+  float altoPersonaje = 130;
 
-  float anchoOrbita = 398;
-  float altoOrbita =398;
+  float anchoOrbita = 700;
+  float altoOrbita = 700;
 
   Vanidad() {
   }
@@ -55,16 +55,16 @@ class Vanidad {
       //anchoOrbita = anchoOrbita*1.01;
       //altoOrbita=altoOrbita*1.01;
     } else {
-      if (anchoPersonaje>55 && altoPersonaje>61) {
+      if (anchoPersonaje>120 && altoPersonaje>130) {
         anchoPersonaje--;
         altoPersonaje--;
         anchoOrbita--;
         altoOrbita--;
       } else {
-        anchoPersonaje = 55;
-        altoPersonaje = 61;
-        anchoOrbita = 398;
-        altoOrbita =398;
+        anchoPersonaje = 120;
+        altoPersonaje = 130;
+        anchoOrbita = 700;
+        altoOrbita = 700;
       }
     }
   }
