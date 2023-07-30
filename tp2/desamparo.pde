@@ -8,14 +8,15 @@ class Desamparo {
 
   boolean[] collision = new boolean[numStars];  
   float[] speed = new float[numStars];
+  float x, y;
   //boolean collision = false;
 
+  int radioOrbita = 200; // Radio de la órbita
   float anchoOrbita = 400;
   float altoOrbita = 400;
   float r = 0;
   
   // orbit declarations
-  float posX, posY;
   float radiusX, radiusY;
   float vel;
   
@@ -27,7 +28,6 @@ class Desamparo {
 
   Desamparo() {
     // Initial values
-    posX = posY = 0;
     vel = 0;
     radiusX = 200; // Orbit width
     radiusY = 200; // Orbit height
@@ -42,6 +42,7 @@ class Desamparo {
   }
 
   void actualizar() {
+    dibujarOrbitaCentro();
     pushStyle();
     pushMatrix();
     
@@ -59,11 +60,6 @@ class Desamparo {
     // global translation to center
     imageMode(CORNER);
     translate(width/2, height/2);
-    
-
-    // Moving object
-    posX = radiusX * cos( vel );
-    posY = radiusY * sin( vel );
     
   
     //PG personaje
@@ -87,7 +83,7 @@ class Desamparo {
    
     //Render main element
     //ellipse( posX, posY, 10, 10 );   
-    image(pg, posX-anchoPersonaje/2, posY-altoPersonaje/2, anchoPersonaje, altoPersonaje);
+    //image(pg, posX-anchoPersonaje/2, posY-altoPersonaje/2, anchoPersonaje, altoPersonaje);
 
 
     //Render stars    
@@ -129,8 +125,38 @@ class Desamparo {
     popStyle();
   }
   
+  void dibujarOrbitaCentro(){
+      pushMatrix();
+      translate(width / 2, height / 2); // Colocar el origen en el centro de la ventana
+    
+      // Dibujar la órbita menor
+      noFill();
+      stroke(255);
+      ellipse(0, 0, radioOrbita * 2, radioOrbita * 2);
+    
+      // Obtener la posición del mouse con respecto al centro de la pantalla
+      float mouseXOffset = mouseX - width / 2;
+      float mouseYOffset = mouseY - height / 2;
+    
+      // Calcular el ángulo entre el centro de la pantalla y la posición del mouse
+      float mouseAngle = atan2(mouseYOffset, mouseXOffset);
+    
+      // Calcular posición de la elipse de la línea 20 en función del ángulo y el radio de la órbita
+      x = radioOrbita * cos(mouseAngle);
+      y = radioOrbita * sin(mouseAngle);
+    
+      // Dibujar la elipse de la línea 20 en su posición calculada
+      stroke(255);
+      fill(0); // Color del círculo
+      ellipseMode(CENTER); // El círculo se dibuja desde su centro
+      //ellipse(x, y, 50, 50); // Dibujar el círculo
+      image(pg, x, y, anchoPersonaje, altoPersonaje);
+      
+      popMatrix();
+    }
+  
   boolean computeCollision(float localX, float localY) {
-    float dist = dist(posX-anchoEstrella/2, posY-altoEstrella/2,localX,localY );
+    float dist = dist(x-anchoEstrella/2, y-altoEstrella/2,localX,localY );
     if (dist < 75) {      
       // text("collision true" ,0,50);
       return true;
@@ -141,7 +167,6 @@ class Desamparo {
   }
   
   void reset() {
-    posX = posY = 0;
     vel = 0;
     for (int i=0; i<numStars; i++) {
       collision[i] = false;  
@@ -155,8 +180,6 @@ class Desamparo {
     textAlign(LEFT,CENTER);
     fill(255,0,0);
     text("anchoPersonaje= "+anchoPersonaje,5,5);
-    text("posX" + posX,5,20);
-    text("posY" + posY,5,35);
     popStyle();
   }
 
