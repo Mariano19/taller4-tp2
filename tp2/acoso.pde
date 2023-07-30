@@ -16,7 +16,7 @@ class Acoso {
   }
 
   void actualizar() {
-    background(0);
+    //background(0);
     translate(width / 2, height / 2); // Colocar el origen en el centro de la ventana
 
     // Dibujar la órbita mayor

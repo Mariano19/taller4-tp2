@@ -2,7 +2,7 @@ class Desinteres {
 
   int radioOrbita = 200; // Radio de la órbita
   int numCirculos = 5;   // Número de círculos en el borde de la elipse
-  float cercaniaLimite = 90; // Distancia límite para mover los círculos
+  float cercaniaLimite = 300; // Distancia límite para mover los círculos
   float offsetFactor = 6; // Factor de ajuste del offset (puedes cambiar este valor)
 
   // Arreglo de objetos para almacenar los círculos en la órbita izquierda
@@ -42,8 +42,8 @@ class Desinteres {
     float mouseAngle = atan2(mouseYOffset, mouseXOffset);
 
     // Calcular posición de la elipse de la línea 20 en función del ángulo y el radio de la órbita
-    x = radioOrbita * cos(mouseAngle);
-    y = radioOrbita * sin(mouseAngle);
+    x = 350 * cos(mouseAngle);
+    y = 350 * sin(mouseAngle);
 
     // Verificar si el círculo controlado por el mouse está cerca de la posición objetivo
     if (dist(x, y, -80, -80) < cercaniaLimite) {
@@ -114,13 +114,13 @@ void dibujarOrbitaDerecha() {
     // Dibujar la órbita menor
     noFill();
     stroke(255);
-    ellipse(0, 0, radioOrbita * 2, radioOrbita * 2);
+    ellipse(0, 0, 700, 700);
 
     // Dibujar la elipse de la línea 20 en su posición calculada
     stroke(255);
     fill(0); // Color del círculo
     ellipseMode(CENTER); // El círculo se dibuja desde su centro
-    ellipse(x, y, 50, 50); // Dibujar el círculo
+    //ellipse(x, y, 50, 50); // Dibujar el círculo
     image(personaje, x, y, anchoPersonaje, altoPersonaje);
     println(x, y);
     popMatrix();
