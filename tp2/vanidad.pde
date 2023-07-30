@@ -4,8 +4,11 @@ class Vanidad {
 
   float anchoOrbita = 700;
   float altoOrbita = 700;
+  
+  PGraphics pg;
 
   Vanidad() {
+    
   }
 
   void actualizar() {
@@ -41,6 +44,9 @@ class Vanidad {
 
     pushStyle();
     imageMode(CENTER);
+
+ 
+  
     image(personaje, width/2, height/2, anchoPersonaje, altoPersonaje);
     popStyle();
 

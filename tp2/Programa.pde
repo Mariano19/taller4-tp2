@@ -51,7 +51,7 @@ class Programa {
     if(estado.equals("Acoso")){
       acoso.actualizar();
     }
-    if(estado.equals("Desinteres")){
+    if(estado.equals("Desinterés")){
       desinteres.actualizar();
     }
   }
