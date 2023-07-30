@@ -2,7 +2,7 @@ class Menu {
 
   int numButtons = 9;
   Button[] buttons = new Button[numButtons];
-  String[] buttonLabels = {"Acoso", "Vanidad", "Desinterés", "Mediación", "Xenofobia", "Timidez", "Protección", "Desamparo", "Empatía"};
+  String[] buttonLabels = {"Acoso", "Vanidad", "Desinterés", "Mediación", "Xenofobia", "Timidez", "Protección", "Desamparo", "Empatia"};
   int margin = 20; // Margen entre botones
   
   Menu() {

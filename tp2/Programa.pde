@@ -1,6 +1,7 @@
 class Programa {
   //Clases
   String estado;
+  String[] estadosPosibles = {"Acoso", "Vanidad", "Desinteres", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
   Caratula caratula;
   Menu menu;
   Vanidad vanidad;
@@ -111,11 +112,21 @@ class Programa {
         println("entro estado menu" );
       }
       //GoNext
-      if (isClicked(x, y+60)) {
-        //estado = "menu";
-        //RESETS
-        //desamparo.reset();
-        println("entro goNext" );
+      if (isClicked(x, y+60)) { 
+        //return to start
+        if (estado.equals("Empatia")) {
+          estado = "menu";
+        }
+        //Navigate
+        for (int i = 0; i < estadosPosibles.length-1; i++) {        
+          if (estadosPosibles[i].equals(estado)){
+            estado = estadosPosibles[i+1];
+            println("estado", estado);
+            return;            
+          }          
+        }       
+        
+        println("estado", estado );
       }
     }
   }
