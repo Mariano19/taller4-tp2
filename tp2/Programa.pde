@@ -7,7 +7,8 @@ class Programa {
   Desamparo desamparo;
   Timidez timidez;
   Acoso acoso; 
-  Desinteres desinteres;
+  Desinteres desinteres;  
+  NavigationButtons navigationButtons;
 
   Programa() {
     estado = "caratula";
@@ -16,8 +17,11 @@ class Programa {
     vanidad = new Vanidad();
     desamparo = new Desamparo();
     timidez = new Timidez();
-    acoso = new Acoso();
     desinteres = new Desinteres();
+    acoso = new Acoso();
+    
+    //botones
+    navigationButtons = new NavigationButtons();
   }
 
   //Funciones
@@ -26,8 +30,14 @@ class Programa {
       caratula.actualizar();
     }
     if(estado.equals("menu")){
-      menu.actualizar();
+      menu.actualizar();    
     }
+    if(estado != "menu" && estado != "caratula"){
+      navigationButtons.goBack();
+      navigationButtons.goNext();
+      navigationButtons.reset();
+    }
+    
     if(estado.equals("Vanidad")){
       vanidad.actualizar();
     }
@@ -40,31 +50,73 @@ class Programa {
     if(estado.equals("Acoso")){
       acoso.actualizar();
     }
-    if(estado.equals("Desinterés")){
+    if(estado.equals("Desinteres")){
       desinteres.actualizar();
     }
   }
 
-  void click() {
-    
-     if(estado.equals("menu")){
+  void click() {    
+    if(estado.equals("menu")){
        menu.clickBoton();
     }
-      if(estado.equals("Vanidad")){
+    if(estado.equals("Vanidad")){
        vanidad.click();
     }
-      if(estado.equals("Desamparo")){
+    if(estado.equals("Desamparo")){
        desamparo.click();
     }
-   
+
+    if(estado != "menu"){
+       navigationButtons.handleClick();
+    }
   }
+
   
-  void teclado(){
-    //Para volver al menu apretar tecla B
-     if (key == 'b' || key == 'B') {
-      estado = "menu";
-      desamparo.reset();
-      println("Estado:" + programa.estado);
+  class NavigationButtons {
+    int x = width-65;
+    int y = 10;
+    
+    boolean isClicked(int localX, int localY) {
+      println(x,y, mouseX, mouseY );
+      return mouseX > localX && mouseX < localX + 50  && mouseY > localY && mouseY < localY +50 ;
+    }
+    
+    void goBack() {
+      pushStyle();
+      imageMode(CORNER);
+      image(arrow, x, y, 50, 50);      
+      popStyle();
+    }
+    
+    void goNext() {
+      pushStyle();
+      imageMode(CORNER);
+      image(arrow2, x, y+60 , 50, 50);      
+      popStyle();
+    }
+    
+    void reset() {
+      pushStyle();
+      imageMode(CORNER);
+      image(reset, x, y+120 , 50, 50);      
+      popStyle();
+    }
+    
+    void handleClick() {  
+      //Goback
+      if (isClicked(x, y)) {
+        estado = "menu";
+        //RESETS
+        desamparo.reset();
+        println("entro estado menu" );
+      }
+      //GoNext
+      if (isClicked(x, y+60)) {
+        //estado = "menu";
+        //RESETS
+        //desamparo.reset();
+        println("entro goNext" );
+      }
     }
   }
 }

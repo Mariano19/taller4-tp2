@@ -42,13 +42,15 @@ class Desamparo {
   }
 
   void actualizar() {
+    pushStyle();
+    pushMatrix();
+    
     //Standarts values
     debug();    
     fill(255, 0, 0);
     text("DESAMPARO", width/2, 10);
 
-    //Órbit
-    pushStyle();
+    //Órbit    
     noFill();
     stroke(255);
     ellipse(width/2, height/2, anchoOrbita, altoOrbita);
@@ -123,7 +125,7 @@ class Desamparo {
         vel -= 0.01;
       }      
     }
-    
+    popMatrix();
     popStyle();
   }
   
