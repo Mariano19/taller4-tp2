@@ -10,6 +10,7 @@ class Programa {
   Acoso acoso; 
   Desinteres desinteres;  
   NavigationButtons navigationButtons;
+  Empatia empatia;
 
   Programa() {
     estado = "caratula";
@@ -20,6 +21,7 @@ class Programa {
     timidez = new Timidez();
     desinteres = new Desinteres();
     acoso = new Acoso();
+    empatia = new Empatia();
     
     //botones
     navigationButtons = new NavigationButtons();
@@ -53,6 +55,9 @@ class Programa {
     }
     if(estado.equals("Desinterés")){
       desinteres.actualizar();
+    }
+    if(estado.equals("Empatia")){
+      empatia.actualizar();
     }
   }
 

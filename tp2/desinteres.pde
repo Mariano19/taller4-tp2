@@ -169,7 +169,7 @@ void dibujarOrbitaDerecha() {
     }
 
     void dibujar() {
-      image(estrella, this.x, this.y, 50, 50); // Mostrar la imagen en la posición del círculo
+      image(estrella, this.x, this.y, 100, 100); // Mostrar la imagen en la posición del círculo
     }
   }
 }
