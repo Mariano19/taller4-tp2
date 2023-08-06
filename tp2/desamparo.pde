@@ -59,7 +59,7 @@ class Desamparo {
     
 
     // global translation to center
-    imageMode(CORNER);
+    //imageMode(CORNER);
     translate(width/2, height/2);
     
   

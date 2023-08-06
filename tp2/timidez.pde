@@ -9,7 +9,7 @@ class Timidez {
   PGraphics pg;
   
   Timidez() {
-    imageMode(CENTER);
+    //imageMode(CENTER);
      pg = createGraphics(anchoPersonaje, altoPersonaje); //PGraphics for the main element to allow self rotation
   }
 

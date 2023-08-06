@@ -2,7 +2,7 @@ class Caratula {
   float anchoOrbita = 700;
   float altoOrbita = 700;
   float r = 0;
-  int timeOut = 2000;
+  int timeOut = 200;
   
   // orbit declarations
   float posX, posY;
@@ -17,7 +17,7 @@ class Caratula {
     radiusX = 350; // Orbit width
     radiusY = 350; // Orbit height
     
-    imageMode(CENTER);
+    //imageMode(CENTER);
   }
   
   void actualizar() {
@@ -50,7 +50,7 @@ class Caratula {
     
     pushStyle();
     pushMatrix();
-    imageMode(CORNER);
+    //imageMode(CORNER);
     translate(width/2, height/2);
     // Moving object
     posX = radiusX * cos( vel );

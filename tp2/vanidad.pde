@@ -37,14 +37,14 @@ class Vanidad {
     rotate(radians(frameCount));
 
     // Dibujar la imagen
-    imageMode(CENTER);
+    //imageMode(CENTER);
     image(orbitaVanidad, 0, 0, anchoOrbita, altoOrbita); // Cambia las dimensiones de acuerdo a tus necesidades
     popStyle();
     popMatrix();
 
 
     pushStyle();
-    imageMode(CENTER);
+    //imageMode(CENTER);
 
  
   

@@ -15,7 +15,7 @@ class Empatia {
   float posX = 0;
   
   Empatia(){
-    imageMode(CENTER);
+    //imageMode(CENTER);
      pg = createGraphics(anchoPersonaje, altoPersonaje); //PGraphics for the main element to allow self rotation
   }
 

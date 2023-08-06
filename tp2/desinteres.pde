@@ -18,7 +18,7 @@ class Desinteres {
   PGraphics pg;
 
   Desinteres() {
-    imageMode(CENTER);
+    //imageMode(CENTER);
     // Inicializar los objetos Circulo y sus coordenadas en la órbita izquierda
     for (int i = 0; i < numCirculos; i++) {
       float angulo = TWO_PI * i / numCirculos;
