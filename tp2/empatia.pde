@@ -20,6 +20,7 @@ class Empatia {
   }
 
   void actualizar() {
+    background(0);
     // Rotar los rectángulos sobre su propio eje
     orbitaRotation1 += 0.02;
     orbitaRotation2 -= 0.03;

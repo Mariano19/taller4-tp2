@@ -1,3 +1,5 @@
+import fisica.*;
+
 Programa programa;
 PImage bg;
 PImage personaje;
@@ -23,13 +25,14 @@ void setup () {
   bg.resize(1920/2, 0);
   orbitaVanidad.resize(1920/4, 0);
   imageMode(CORNER);
+  Fisica.init(this);
 
   // Inicio objeto
   programa = new Programa();
 }
 
 void draw () {
-  background(0);
+  //background(0);
   pushStyle();
   tint(255, 100);  // Apply transparency without changing color
   //image(bg, 0, 0);

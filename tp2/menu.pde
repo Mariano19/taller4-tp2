@@ -10,6 +10,7 @@ class Menu {
   }
 
   void actualizar() {
+    background(0);
     // Dibujar los botones
     for (Button button : buttons) {
       button.display();

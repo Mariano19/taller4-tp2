@@ -42,6 +42,7 @@ class Desamparo {
   }
 
   void actualizar() {
+    background(0);
     dibujarOrbitaCentro();
     pushStyle();
     pushMatrix();

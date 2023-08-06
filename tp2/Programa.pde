@@ -11,6 +11,7 @@ class Programa {
   Desinteres desinteres;  
   NavigationButtons navigationButtons;
   Empatia empatia;
+  Mediacion mediacion;
 
   Programa() {
     estado = "caratula";
@@ -22,6 +23,7 @@ class Programa {
     desinteres = new Desinteres();
     acoso = new Acoso();
     empatia = new Empatia();
+    mediacion = new Mediacion();
     
     //botones
     navigationButtons = new NavigationButtons();
@@ -35,12 +37,6 @@ class Programa {
     if(estado.equals("menu")){
       menu.actualizar();    
     }
-    if(estado != "menu" && estado != "caratula"){
-      navigationButtons.goBack();
-      navigationButtons.goNext();
-      navigationButtons.reset();
-    }
-    
     if(estado.equals("Vanidad")){
       vanidad.actualizar();
     }
@@ -58,6 +54,14 @@ class Programa {
     }
     if(estado.equals("Empatia")){
       empatia.actualizar();
+    }
+    if(estado.equals("Mediación")){
+      mediacion.actualizar();
+    }
+    if(estado != "menu" && estado != "caratula"){
+      navigationButtons.goBack();
+      navigationButtons.goNext();
+      navigationButtons.reset();
     }
   }
 

@@ -30,6 +30,7 @@ class Desinteres {
   }
 
   void actualizar() {
+    background(0);
     dibujarOrbitaCentro();
     dibujarOrbitaIzquierda();
     //dibujarOrbitaDerecha();
@@ -89,24 +90,6 @@ class Desinteres {
     popMatrix();
   }
 
-  /*
-void dibujarOrbitaDerecha() {
-   pushMatrix();
-   translate(width / 5*4, height / 4*3); // Colocar el origen en el centro de la ventana
-   
-   // Dibujar la órbita izquierda
-   noFill();
-   stroke(255);
-   ellipse(0, 0, radioOrbita * 2, radioOrbita * 2);
-   
-   // Dibujar los círculos en el borde de la elipse
-   for (int i = 0; i < numCirculos; i++) {
-   circulosIzquierda[i].dibujar();
-   }
-   
-   popMatrix();
-   }
-   */
   void dibujarOrbitaCentro() {
     pushMatrix();
     translate(width / 2, height / 2); // Colocar el origen en el centro de la ventana

@@ -26,7 +26,7 @@ class Caratula {
   }
   
   void display() {    
-    
+    background(0);
     drawOrbitAnimation();
     //Text
     pushStyle();

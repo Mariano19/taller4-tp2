@@ -12,6 +12,7 @@ class Vanidad {
   }
 
   void actualizar() {
+    background(0);
     debug();
     
     fill(255, 0, 0);
