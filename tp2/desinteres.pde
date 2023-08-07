@@ -1,158 +1,149 @@
 class Desinteres {
 
-  int radioOrbita = 200; // Radio de la órbita
-  int numCirculos = 5;   // Número de círculos en el borde de la elipse
-  float cercaniaLimite = 300; // Distancia límite para mover los círculos
-  float offsetFactor = 6; // Factor de ajuste del offset (puedes cambiar este valor)
+  FWorld mundo;
 
-  // Arreglo de objetos para almacenar los círculos en la órbita izquierda
-  Circulo[] circulosIzquierda = new Circulo[numCirculos];
-
-  // Variables globales para las coordenadas x e y de la posición de la elipse de la línea 20
-  float x;
-  float y;
-
-  //Personaje
+  
+  FBox main;
+  FCircle ancla;
+  FCircle[] enemigos = new FCircle[5];
+  FDistanceJoint cadenaPersonaje;  
+  FMouseJoint cadena;
+  //ArrayList<FDistanceJoint> cadenas;
+  //FRevoluteJoint rAncla;
+  float posX, posY;
   int anchoPersonaje = 120;
   int altoPersonaje = 130;
-  PGraphics pg;
+  int sizeEstrella = 140; 
+  int radioOrbita = 325; // Radio de la órbita
+  int i = 0;
 
   Desinteres() {
-    //imageMode(CENTER);
-    // Inicializar los objetos Circulo y sus coordenadas en la órbita izquierda
-    for (int i = 0; i < numCirculos; i++) {
-      float angulo = TWO_PI * i / numCirculos;
-      float x = radioOrbita * cos(angulo);
-      float y = radioOrbita * sin(angulo);
-      circulosIzquierda[i] = new Circulo(x, y);
+    pushStyle();
+    pushMatrix();
+    personaje.resize(120, 130);
+    mundo = new FWorld();
+    mundo.setEdges(100);
+    mundo.setGravity(0,0);
+    posX = posY = 0;
+    
+    
+    //myBlob.vertex(0, 0);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/4);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/1.5);
+    //myBlob.vertex(600, 400); 
+    //myBlob.setStatic(true);
+    for (FCircle enemigo : enemigos){      
+      float localX = radioOrbita * cos( i ) -sizeEstrella/2;      
+      float localY = radioOrbita * sin( i ) -sizeEstrella/2;
+      float angulo = 1000*i;
+      float x = cos(angulo);
+      float y = sin(angulo);
+
+      enemigo = new FCircle(sizeEstrella); 
+      enemigo.setPosition(width/2, height/2);
+      enemigo.attachImage(estrella);
+      enemigo.setName("enemigo");
+      mundo.add(enemigo);
+      
+      cadena = new FMouseJoint(enemigo,width/2, height/2);
+      cadena.setDrawable(false);
+      mundo.add(cadena);
+      //cadenas[i].setLength(50);
+      //mundo.add(cadenas[i]);
+      i++;
     }
-    pg = createGraphics(anchoPersonaje, altoPersonaje); //PGraphics for the main element to allow self rotation
+    // Personaje principal
+    main = new FBox(anchoPersonaje, altoPersonaje);
+    main.setPosition(width/2, height/2);
+    main.setStatic(true);
+    main.attachImage(personaje);
+    
+    
+    // Anclaje
+    ancla = new FCircle(radioOrbita*2); 
+    ancla.setDrawable(false);
+    ancla.setPosition(width/2, height/2);
+    ancla.setGrabbable(false);
+    ancla.setStatic(true);
+    
+    // Estrella
+    //enemigos = new FCircle(sizeEstrella); 
+    //enemigos.setPosition(posX, posY);
+    //estrella.setStatic(false);
+    //estrella.setFill(50,50,255);
+    //enemigos.attachImage(estrella);
+    //circles.addForce(1000,10);
+    
+    //cadena personaje
+    cadenaPersonaje = new FDistanceJoint(main, ancla);
+    cadenaPersonaje.setLength(50);
+    cadenaPersonaje.setFrequency(50000);
+    cadenaPersonaje.setDrawable(false);
+    
+    mundo.add(ancla);
+    mundo.add(main);
+    mundo.add(cadenaPersonaje);
+
+    popMatrix();
+    popStyle();
   }
 
   void actualizar() {
-    background(0);
-    dibujarOrbitaCentro();
-    dibujarOrbitaIzquierda();
-    //dibujarOrbitaDerecha();
-
-    // Obtener la posición del mouse con respecto al centro de la pantalla
-    float mouseXOffset = mouseX - width / 2;
-    float mouseYOffset = mouseY - height / 2;
-
-    // Calcular el ángulo entre el centro de la pantalla y la posición del mouse
-    float mouseAngle = atan2(mouseYOffset, mouseXOffset);
-
-    // Calcular posición de la elipse de la línea 20 en función del ángulo y el radio de la órbita
-    x = 350 * cos(mouseAngle);
-    y = 350 * sin(mouseAngle);
-
-    // Verificar si el círculo controlado por el mouse está cerca de la posición objetivo
-    if (dist(x, y, -80, -80) < cercaniaLimite) {
-      // Calcular las coordenadas polares de la esquina superior izquierda de la órbita
-      float anguloEsquina = atan2(-80, -80);
-      float radioEsquina = sqrt(sq(-80) + sq(-80));
-
-      // Calcular el ángulo de separación entre las esferas en la esquina
-      float anguloSeparacion = PI / (numCirculos - 1);
-
-      // Calcular las posiciones de las esferas en el borde del radio de la órbita
-      for (int i = 0; i < numCirculos; i++) {
-        float anguloFinal = anguloEsquina + i * anguloSeparacion;
-        float offsetX = offsetFactor * 15 * cos(anguloFinal); // Offset con factor de ajuste
-        float offsetY = offsetFactor * 15 * sin(anguloFinal);
-        float targetX = -80 + offsetX;
-        float targetY = -80 + offsetY;
-        circulosIzquierda[i].iniciarAnimacion(targetX, targetY);
-      }
-    }
-
-    // Actualizar la animación de cada círculo en la órbita izquierda
-    for (int i = 0; i < numCirculos; i++) {
-      circulosIzquierda[i].actualizar();
-    }
+    fill(0,0,0,80);
+    rect(0,0,width,height);
+    //background(255);
+    //println("entro mediacion");
+    
+    //mundo.drawDebug();
+    mundo.step();
+    mundo.draw();
+    
+    dibujarOrbitaCentro();    
+    movimientoEstrellas();
   }
 
 
-  void dibujarOrbitaIzquierda() {
-    pushMatrix();
-    translate(width / 5, height / 4); // Colocar el origen en el centro de la ventana
-
-    // Dibujar la órbita izquierda
-    noFill();
-    stroke(255);
-    ellipse(0, 0, radioOrbita * 2, radioOrbita * 2);
-
-    // Dibujar los círculos en el borde de la elipse
-    for (int i = 0; i < numCirculos; i++) {
-      circulosIzquierda[i].dibujar();
-    }
-
-    popMatrix();
-  }
-
-  void dibujarOrbitaCentro() {
+  void dibujarOrbitaCentro(){
     pushMatrix();
     translate(width / 2, height / 2); // Colocar el origen en el centro de la ventana
-
+  
     // Dibujar la órbita menor
     noFill();
     stroke(255);
-    ellipse(0, 0, 700, 700);
-
-    // Dibujar la elipse de la línea 20 en su posición calculada
-    stroke(255);
-    fill(0); // Color del círculo
-    ellipseMode(CENTER); // El círculo se dibuja desde su centro
-    //ellipse(x, y, 50, 50); // Dibujar el círculo
-    image(personaje, x, y, anchoPersonaje, altoPersonaje);
-    println(x, y);
+    ellipse(0, 0, radioOrbita * 2+125, radioOrbita * 2+125);
     popMatrix();
   }
-
-  // Clase para representar cada círculo en la órbita izquierda
-  class Circulo {
-    float x;
-    float y;
-    float targetX;
-    float targetY;
-    boolean animating;
-    float animStep;
-
-    Circulo(float x, float y) {
-      this.x = x;
-      this.y = y;
-      this.targetX = x;
-      this.targetY = y;
-      this.animating = false;
-      this.animStep = 0.0;
+  
+  void limitePersonaje() {
+    float posX = main.getX();
+    float posY = main.getY();
+    float dist = dist(main.getX(), main.getY(), ancla.getX(), ancla.getY());
+    if(dist> 250) {
+      main.setPosition(mouseX, mouseY);
+    } else{
+      //main.setPosition();
     }
+    println("dist", dist);
 
-    void iniciarAnimacion(float targetX, float targetY) {
-      this.targetX = targetX;
-      this.targetY = targetY;
-      this.animating = true;
-    }
-
-    void actualizar() {
-      if (this.animating) {
-        if (this.animStep < 1.0) {
-          this.animStep += 0.01; // Incrementar el paso de la animación
-          this.x = lerp(this.x, this.targetX, this.animStep);
-          this.y = lerp(this.y, this.targetY, this.animStep);
-
-          // Mantener las esferas en el borde del radio de la órbita izquierda
-          float distanciaCentro = dist(0, 0, this.x, this.y);
-          this.x = this.x * radioOrbita / distanciaCentro;
-          this.y = this.y * radioOrbita / distanciaCentro;
-        } else {
-          this.animating = false; // Finalizar la animación
-          this.animStep = 0.0; // Reiniciar el paso de la animación
+  //posX > width/2-radioOrbita && posX < width/2+radioOrbita
+  }
+  
+  
+  void movimientoEstrellas() {
+    ArrayList<FBody> cuerpos = mundo.getBodies();
+    float factor = 5000;
+    
+    for (FBody enemigo : cuerpos){ 
+      String nombre = enemigo.getName();
+      if (nombre != null){
+        if (nombre.equals("enemigo")){
+          float dx = enemigo.getX()- main.getX();
+          float dy = enemigo.getY() - main.getY();
+          enemigo.addImpulse(300, 300);
+          enemigo.setAngularVelocity(5);          
+          enemigo.addForce(dx * factor,dy * factor);
         }
       }
-    }
-
-    void dibujar() {
-      image(estrella, this.x, this.y, 100, 100); // Mostrar la imagen en la posición del círculo
     }
   }
 }
