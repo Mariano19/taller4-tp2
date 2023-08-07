@@ -15,6 +15,7 @@ class Desinteres {
   int altoPersonaje = 130;
   int sizeEstrella = 140; 
   int radioOrbita = 325; // Radio de la órbita
+    int radioOrbita2 = 385; // Radio de la órbita
   int i = 0;
 
   Desinteres() {
@@ -43,6 +44,7 @@ class Desinteres {
       enemigo.setPosition(width/2, height/2);
       enemigo.attachImage(estrella);
       enemigo.setName("enemigo");
+      enemigo.setGrabbable(false); // Desactivar la interacción del mouse
       mundo.add(enemigo);
       
       cadena = new FMouseJoint(enemigo,width/2, height/2);
@@ -88,19 +90,37 @@ class Desinteres {
     popStyle();
   }
 
+
+  
   void actualizar() {
-    fill(0,0,0,80);
-    rect(0,0,width,height);
-    //background(255);
-    //println("entro mediacion");
-    
-    //mundo.drawDebug();
-    mundo.step();
-    mundo.draw();
-    
-    dibujarOrbitaCentro();    
-    movimientoEstrellas();
+  fill(0, 0, 0, 80);
+  rect(0, 0, width, height);
+  
+  limitePersonaje();
+  
+  // Dibujar objetos y actualizar simulación
+  mundo.drawDebug();
+  mundo.step();
+  mundo.draw();
+  
+  dibujarOrbitaCentro();
+  movimientoEstrellas();
+}
+
+void limitePersonaje() {
+  // Obtener la posición actual del main
+  PVector mainPosition = new PVector(main.getX(), main.getY());
+  
+  // Restringir el movimiento dentro del círculo de radio
+  PVector center = new PVector(width/2, height/2);
+  PVector offset = PVector.sub(mainPosition, center);
+  if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+    offset.setMag(radioOrbita2 - anchoPersonaje/2);
+    mainPosition = PVector.add(center, offset);
+    main.setPosition(mainPosition.x, mainPosition.y);
+    main.setVelocity(0, 0);
   }
+}
 
 
   void dibujarOrbitaCentro(){
@@ -114,20 +134,7 @@ class Desinteres {
     popMatrix();
   }
   
-  void limitePersonaje() {
-    float posX = main.getX();
-    float posY = main.getY();
-    float dist = dist(main.getX(), main.getY(), ancla.getX(), ancla.getY());
-    if(dist> 250) {
-      main.setPosition(mouseX, mouseY);
-    } else{
-      //main.setPosition();
-    }
-    println("dist", dist);
 
-  //posX > width/2-radioOrbita && posX < width/2+radioOrbita
-  }
-  
   
   void movimientoEstrellas() {
     ArrayList<FBody> cuerpos = mundo.getBodies();
