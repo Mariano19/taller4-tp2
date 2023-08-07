@@ -13,6 +13,7 @@ class Programa {
   Empatia empatia;
   Mediacion mediacion;
   Xenofobia xenofobia;
+  Proteccion proteccion;
 
   Programa() {
     estado = "caratula";
@@ -26,7 +27,7 @@ class Programa {
     empatia = new Empatia();
     mediacion = new Mediacion();
     xenofobia = new Xenofobia();
-    
+    proteccion = new Proteccion();
     //botones
     navigationButtons = new NavigationButtons();
   }
@@ -63,6 +64,9 @@ class Programa {
     if(estado.equals("Xenofobia")){
       xenofobia.actualizar();
     }
+       if(estado.equals("Protección")){
+      proteccion.actualizar();
+    }
     if(estado != "menu" && estado != "caratula"){
       navigationButtons.goBack();
       navigationButtons.goNext();
@@ -75,7 +79,7 @@ class Programa {
        menu.clickBoton();
     }
     if(estado.equals("Vanidad")){
-       vanidad.click();
+       vanidad.touch();
     }
     if(estado.equals("Desamparo")){
        desamparo.click();
@@ -84,6 +88,13 @@ class Programa {
     if(estado != "menu"){
        navigationButtons.handleClick();
     }
+  }
+  
+  void release(){
+   if(estado.equals("Vanidad")){
+       vanidad.release();
+    }
+  
   }
 
   

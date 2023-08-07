@@ -51,6 +51,10 @@ void mousePressed() {
   programa.click();
 }
 
+void mouseReleased(){
+  programa.release();
+}
+
 //void keyPressed() {
 //  programa.teclado();
 //}

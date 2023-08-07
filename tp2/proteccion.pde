@@ -1,38 +1,29 @@
-class Timidez {
+class Proteccion {
   FWorld mundo;
-
 
   FBox main;
   FCircle ancla;
   FCircle[] enemigos = new FCircle[5];
   FDistanceJoint cadenaPersonaje;
   FMouseJoint cadena;
-  //ArrayList<FDistanceJoint> cadenas;
-  //FRevoluteJoint rAncla;
   float posX, posY;
   int anchoPersonaje = 120;
   int altoPersonaje = 130;
   int sizeEstrella = 140;
   int radioOrbita = 325; // Radio de la órbita
   int radioOrbita2 = 385; // Radio de la órbita
+  int limiteExtendidoMain = 450;
   int i = 0;
 
-  Timidez() {
-
+  Proteccion() {
     pushStyle();
     pushMatrix();
-    personaje.resize(120, 130);
+    personaje.resize(anchoPersonaje, altoPersonaje);
     mundo = new FWorld();
     mundo.setEdges(100);
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
-
-    //myBlob.vertex(0, 0);
-    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/4);
-    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/1.5);
-    //myBlob.vertex(600, 400);
-    //myBlob.setStatic(true);
     for (int i = 0; i < enemigos.length; i++) {
       float angulo = TWO_PI / enemigos.length * i;
       float x = width / 2 + cos(angulo) * radioOrbita;
@@ -40,20 +31,19 @@ class Timidez {
 
       enemigos[i] = new FCircle(sizeEstrella);
       enemigos[i].setPosition(x, y);
+      enemigos[i].setSensor(true); //desactivo colisiones
       enemigos[i].attachImage(estrella);
       enemigos[i].setName("enemigo");
       enemigos[i].setGrabbable(false);
-
       mundo.add(enemigos[i]);
-
-      // No es necesario crear y añadir FMouseJoint aquí, ya que deseas que los enemigos se muevan automáticamente.
     }
+    
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
     main.setStatic(true);
     main.attachImage(personaje);
-
+  
 
     // Anclaje
     ancla = new FCircle(radioOrbita*2);
@@ -61,14 +51,6 @@ class Timidez {
     ancla.setPosition(width/2, height/2);
     ancla.setGrabbable(false);
     ancla.setStatic(true);
-
-    // Estrella
-    //enemigos = new FCircle(sizeEstrella);
-    //enemigos.setPosition(posX, posY);
-    //estrella.setStatic(false);
-    //estrella.setFill(50,50,255);
-    //enemigos.attachImage(estrella);
-    //circles.addForce(1000,10);
 
     //cadena personaje
     cadenaPersonaje = new FDistanceJoint(main, ancla);
@@ -87,7 +69,6 @@ class Timidez {
   void actualizar() {
     fill(0, 0, 0, 80);
     rect(0, 0, width, height);
-    mapeoMain();
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
@@ -97,6 +78,7 @@ class Timidez {
 
     dibujarOrbitaCentro();
     movimientoEstrellas();
+    verificarContacto();
   }
 
   void limitePersonaje() {
@@ -106,8 +88,8 @@ class Timidez {
     // Restringir el movimiento dentro del círculo de radio
     PVector center = new PVector(width/2, height/2);
     PVector offset = PVector.sub(mainPosition, center);
-    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
-      offset.setMag(radioOrbita2 - anchoPersonaje/2);
+    if (offset.mag() > limiteExtendidoMain - anchoPersonaje/2) {
+      offset.setMag(limiteExtendidoMain - anchoPersonaje/2);
       mainPosition = PVector.add(center, offset);
       main.setPosition(mainPosition.x, mainPosition.y);
       main.setVelocity(0, 0);
@@ -126,7 +108,21 @@ class Timidez {
     popMatrix();
   }
 
-
+ void verificarContacto() {
+    for (int i = 0; i < enemigos.length; i++) {
+      FCircle enemigo = enemigos[i];
+      
+      // Verificar si el personaje principal está en contacto con el enemigo
+      if (main.isTouchingBody(enemigo)) {
+        pushStyle();
+        fill(255,0,0);        
+        textSize(25);
+        text("ESTÁ PROTEGIENDO",width/2,height/2);
+        popStyle();
+        
+      }
+    }
+  }
 
   void movimientoEstrellas() {
     float tiempo = millis() * 0.001; // Tiempo en segundos
@@ -144,29 +140,4 @@ class Timidez {
       enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
     }
   }
-
-  void mapeoMain() {
-    float minSize = 0.5; // Tamaño mínimo cuando está cerca de los enemigos
-    float maxSize = 1.0; // Tamaño normal cuando está lejos de los enemigos
-    float distanciaMinima = radioOrbita2 - anchoPersonaje / 2;
-
-    // Calcular la distancia entre el main y el centro
-    PVector mainPosition = new PVector(main.getX(), main.getY());
-    PVector center = new PVector(width / 2, height / 2);
-    float distanciaMainCentro = mainPosition.dist(center);
-
-    // Mapear el tamaño en función de la distancia al centro
-    float sizeFactor = map(distanciaMainCentro, 0, distanciaMinima, maxSize, minSize);
-
-    // Ajustar el tamaño del cuerpo principal
-    //main.setWidth(anchoPersonaje * sizeFactor);
-    //main.setHeight(altoPersonaje * sizeFactor);
-
-    // Ajustar el tamaño de la imagen adjunta
-    pushStyle();
-    personaje.resize(int(anchoPersonaje * sizeFactor), int(altoPersonaje * sizeFactor));
-    main.attachImage(personaje);
-    popStyle();
-  }
-
 }

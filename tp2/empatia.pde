@@ -12,13 +12,13 @@ class Empatia {
   int sizeEstrella = 140;
   int radioOrbita = 325; // Radio de la órbita
   int radioOrbita2 = 385; // Radio de la órbita
-  int limiteExtendidoMain = 450; // Radio de la órbita
+  int limiteExtendidoMain = 450;
   int i = 0;
 
   Empatia() {
     pushStyle();
     pushMatrix();
-    personaje.resize(120, 130);
+    personaje.resize(anchoPersonaje, altoPersonaje);
     mundo = new FWorld();
     mundo.setEdges(100);
     mundo.setGravity(0, 0);
@@ -43,6 +43,7 @@ class Empatia {
     main.setPosition(width/2, height/2);
     main.setStatic(true);
     main.attachImage(personaje);
+  
 
     // Anclaje
     ancla = new FCircle(radioOrbita*2);
