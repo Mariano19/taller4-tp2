@@ -1,4 +1,5 @@
-class Empatia {
+class Xenofobia {
+
   FWorld mundo;
 
   FBox main;
@@ -6,16 +7,17 @@ class Empatia {
   FCircle[] enemigos = new FCircle[5];
   FDistanceJoint cadenaPersonaje;
   FMouseJoint cadena;
+  //ArrayList<FDistanceJoint> cadenas;
+  //FRevoluteJoint rAncla;
   float posX, posY;
   int anchoPersonaje = 120;
   int altoPersonaje = 130;
   int sizeEstrella = 140;
   int radioOrbita = 325; // Radio de la órbita
   int radioOrbita2 = 385; // Radio de la órbita
-  int limiteExtendidoMain = 450; // Radio de la órbita
   int i = 0;
 
-  Empatia() {
+  Xenofobia() {
     pushStyle();
     pushMatrix();
     personaje.resize(120, 130);
@@ -24,25 +26,39 @@ class Empatia {
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
-    for (int i = 0; i < enemigos.length; i++) {
-      float angulo = TWO_PI / enemigos.length * i;
-      float x = width / 2 + cos(angulo) * radioOrbita;
-      float y = height / 2 + sin(angulo) * radioOrbita;
 
-      enemigos[i] = new FCircle(sizeEstrella);
-      enemigos[i].setPosition(x, y);
-      enemigos[i].setSensor(true); //desactivo colisiones
-      enemigos[i].attachImage(estrella);
-      enemigos[i].setName("enemigo");
-      enemigos[i].setGrabbable(false);
-      mundo.add(enemigos[i]);
+    //myBlob.vertex(0, 0);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/4);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/1.5);
+    //myBlob.vertex(600, 400);
+    //myBlob.setStatic(true);
+    for (FCircle enemigo : enemigos) {
+      float localX = radioOrbita * cos( i ) -sizeEstrella/2;
+      float localY = radioOrbita * sin( i ) -sizeEstrella/2;
+      float angulo = 1000*i;
+      float x = cos(angulo);
+      float y = sin(angulo);
+
+      enemigo = new FCircle(sizeEstrella);
+      enemigo.setPosition(width/2, height/2);
+      enemigo.attachImage(estrella);
+      enemigo.setName("enemigo");
+      enemigo.setGrabbable(false); // Desactivar la interacción del mouse
+      mundo.add(enemigo);
+
+      cadena = new FMouseJoint(enemigo, width/2, height/2);
+      cadena.setDrawable(false);
+      mundo.add(cadena);
+      //cadenas[i].setLength(50);
+      //mundo.add(cadenas[i]);
+      i++;
     }
-    
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
     main.setStatic(true);
     main.attachImage(personaje);
+
 
     // Anclaje
     ancla = new FCircle(radioOrbita*2);
@@ -50,6 +66,14 @@ class Empatia {
     ancla.setPosition(width/2, height/2);
     ancla.setGrabbable(false);
     ancla.setStatic(true);
+
+    // Estrella
+    //enemigos = new FCircle(sizeEstrella);
+    //enemigos.setPosition(posX, posY);
+    //estrella.setStatic(false);
+    //estrella.setFill(50,50,255);
+    //enemigos.attachImage(estrella);
+    //circles.addForce(1000,10);
 
     //cadena personaje
     cadenaPersonaje = new FDistanceJoint(main, ancla);
@@ -65,9 +89,12 @@ class Empatia {
     popStyle();
   }
 
+
+
   void actualizar() {
     fill(0, 0, 0, 80);
     rect(0, 0, width, height);
+
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
@@ -77,7 +104,6 @@ class Empatia {
 
     dibujarOrbitaCentro();
     movimientoEstrellas();
-    verificarContacto();
   }
 
   void limitePersonaje() {
@@ -87,8 +113,8 @@ class Empatia {
     // Restringir el movimiento dentro del círculo de radio
     PVector center = new PVector(width/2, height/2);
     PVector offset = PVector.sub(mainPosition, center);
-    if (offset.mag() > limiteExtendidoMain - anchoPersonaje/2) {
-      offset.setMag(limiteExtendidoMain - anchoPersonaje/2);
+    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+      offset.setMag(radioOrbita2 - anchoPersonaje/2);
       mainPosition = PVector.add(center, offset);
       main.setPosition(mainPosition.x, mainPosition.y);
       main.setVelocity(0, 0);
@@ -107,37 +133,23 @@ class Empatia {
     popMatrix();
   }
 
- void verificarContacto() {
-    for (int i = 0; i < enemigos.length; i++) {
-      FCircle enemigo = enemigos[i];
-      
-      // Verificar si el personaje principal está en contacto con el enemigo
-      if (main.isTouchingBody(enemigo)) {
-        pushStyle();
-        fill(255,0,0);        
-        textSize(25);
-        text("ESTÁ EMPATIZANDO",width/2,height/2);
-        popStyle();
-        
-        main.setPosition(enemigo.getX(),enemigo.getY());
-      }
-    }
-  }
+
 
   void movimientoEstrellas() {
-    float tiempo = millis() * 0.001; // Tiempo en segundos
-    float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
+    ArrayList<FBody> cuerpos = mundo.getBodies();
+    float factor = 8000;
 
-    for (int i = 0; i < enemigos.length; i++) {
-      FCircle enemigo = enemigos[i];
-
-      // Calcular la posición en la órbita circular
-      float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
-      float x = width / 2 + cos(angulo) * radioOrbita2;
-      float y = height / 2 + sin(angulo) * radioOrbita2;
-
-      enemigo.setPosition(x, y);
-      enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+    for (FBody enemigo : cuerpos) {
+      String nombre = enemigo.getName();
+      if (nombre != null) {
+        if (nombre.equals("enemigo")) {
+          float dx = enemigo.getX()- main.getX();
+          float dy = enemigo.getY() - main.getY();
+          enemigo.addImpulse(300, 300);
+          enemigo.setAngularVelocity(5);
+          enemigo.addForce(dx * factor, dy * factor);
+        }
+      }
     }
   }
 }

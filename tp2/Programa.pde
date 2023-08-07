@@ -12,6 +12,7 @@ class Programa {
   NavigationButtons navigationButtons;
   Empatia empatia;
   Mediacion mediacion;
+  Xenofobia xenofobia;
 
   Programa() {
     estado = "caratula";
@@ -24,6 +25,7 @@ class Programa {
     acoso = new Acoso();
     empatia = new Empatia();
     mediacion = new Mediacion();
+    xenofobia = new Xenofobia();
     
     //botones
     navigationButtons = new NavigationButtons();
@@ -57,6 +59,9 @@ class Programa {
     }
     if(estado.equals("Mediación")){
       mediacion.actualizar();
+    }
+    if(estado.equals("Xenofobia")){
+      xenofobia.actualizar();
     }
     if(estado != "menu" && estado != "caratula"){
       navigationButtons.goBack();
