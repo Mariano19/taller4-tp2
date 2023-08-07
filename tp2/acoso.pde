@@ -97,7 +97,7 @@ void actualizar() {
   limitePersonaje();
   
   // Dibujar objetos y actualizar simulación
-  mundo.drawDebug();
+  //mundo.drawDebug();
   mundo.step();
   mundo.draw();
   
@@ -134,7 +134,7 @@ void limitePersonaje() {
 
   void movimientoEstrellas() {
     ArrayList<FBody> cuerpos = mundo.getBodies();
-    float factor = 5000;
+    float factor = 20000;
 
     for (FBody enemigo : cuerpos) {
       String nombre = enemigo.getName();

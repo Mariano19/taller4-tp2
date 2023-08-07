@@ -1,51 +1,147 @@
 class Timidez {
-  float orbitaRotation1 = 0;
-  float orbitaRotation2 = 0; 
-  float circleX = 0;
-  float circleY = 0;
-  float delay = 0.1; // Ajusta este valor para cambiar la cantidad de retraso (0 a 1, donde 1 es sin retraso)
-    int anchoPersonaje = 120;
+  FWorld mundo;
+
+
+  FBox main;
+  FCircle ancla;
+  FCircle[] enemigos = new FCircle[5];
+  FDistanceJoint cadenaPersonaje;
+  FMouseJoint cadena;
+  //ArrayList<FDistanceJoint> cadenas;
+  //FRevoluteJoint rAncla;
+  float posX, posY;
+  int anchoPersonaje = 120;
   int altoPersonaje = 130;
-  PGraphics pg;
-  
+  int sizeEstrella = 140;
+  int radioOrbita = 325; // Radio de la órbita
+  int radioOrbita2 = 385; // Radio de la órbita
+  int i = 0;
+
   Timidez() {
-    //imageMode(CENTER);
-     pg = createGraphics(anchoPersonaje, altoPersonaje); //PGraphics for the main element to allow self rotation
+
+    pushStyle();
+    pushMatrix();
+    personaje.resize(120, 130);
+    mundo = new FWorld();
+    mundo.setEdges(100);
+    mundo.setGravity(0, 0);
+    posX = posY = 0;
+
+
+    //myBlob.vertex(0, 0);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/4);
+    //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/1.5);
+    //myBlob.vertex(600, 400);
+    //myBlob.setStatic(true);
+  for (int i = 0; i < enemigos.length; i++) {
+    float angulo = TWO_PI / enemigos.length * i;
+    float x = width / 2 + cos(angulo) * radioOrbita;
+    float y = height / 2 + sin(angulo) * radioOrbita;
+
+    enemigos[i] = new FCircle(sizeEstrella);
+    enemigos[i].setPosition(x, y);
+    enemigos[i].attachImage(estrella);
+    enemigos[i].setName("enemigo");
+    enemigos[i].setGrabbable(false);
+
+    mundo.add(enemigos[i]);
+    
+    // No es necesario crear y añadir FMouseJoint aquí, ya que deseas que los enemigos se muevan automáticamente.
+  }
+    // Personaje principal
+    main = new FBox(anchoPersonaje, altoPersonaje);
+    main.setPosition(width/2, height/2);
+    main.setStatic(true);
+    main.attachImage(personaje);
+
+
+    // Anclaje
+    ancla = new FCircle(radioOrbita*2);
+    ancla.setDrawable(false);
+    ancla.setPosition(width/2, height/2);
+    ancla.setGrabbable(false);
+    ancla.setStatic(true);
+
+    // Estrella
+    //enemigos = new FCircle(sizeEstrella);
+    //enemigos.setPosition(posX, posY);
+    //estrella.setStatic(false);
+    //estrella.setFill(50,50,255);
+    //enemigos.attachImage(estrella);
+    //circles.addForce(1000,10);
+
+    //cadena personaje
+    cadenaPersonaje = new FDistanceJoint(main, ancla);
+    cadenaPersonaje.setLength(50);
+    cadenaPersonaje.setFrequency(50000);
+    cadenaPersonaje.setDrawable(false);
+
+    mundo.add(ancla);
+    mundo.add(main);
+    mundo.add(cadenaPersonaje);
+
+    popMatrix();
+    popStyle();
   }
 
   void actualizar() {
-    background(0);
-    // Rotar los rectángulos sobre su propio eje
-    orbitaRotation1 += 0.02;
-    orbitaRotation2 -= 0.03;
+    fill(0, 0, 0, 80);
+    rect(0, 0, width, height);
 
-    pushMatrix();
-    translate(50, 50); 
-    rotate(orbitaRotation1);
-    image(orbitaVanidad, 0, 0, 800,800); 
-    popMatrix();
+    limitePersonaje();
 
-    pushMatrix();
-    translate(width - 50, height - 50); 
-    rotate(orbitaRotation2);
-    image(orbitaVanidad, 0, 0,800,800); 
-    popMatrix();
+    // Dibujar objetos y actualizar simulación
+    mundo.drawDebug();
+    mundo.step();
+    mundo.draw();
 
-    float targetX = mouseX;
-    float targetY = mouseY;
-    circleX = lerp(circleX, targetX, delay);
-    circleY = lerp(circleY, targetY, delay);
-
-    // Calcular la distancia entre el círculo y las orbitas
-    float distanceToBlueSquare = dist(circleX, circleY, 50, 50);
-    float distanceToGreenSquare = dist(circleX, circleY, width - 50, height - 50);
-
-    // Calcular el tamaño del círculo basado en la distancia a las orbitas
-    float circleSize = map(min(distanceToGreenSquare, distanceToBlueSquare), 300, 0, 50,10);
- //float circleSize = map(max(distanceToBlueSquare, distanceToGreenSquare), 300, 0, -10,00);
-    // Dibujar el círculo en la posición con el tamaño calculado
-    fill(0, 0, 0); 
-
-     image(personaje, circleX, circleY, circleSize, circleSize);
+    dibujarOrbitaCentro();
+    movimientoEstrellas();
   }
+
+  void limitePersonaje() {
+    // Obtener la posición actual del main
+    PVector mainPosition = new PVector(main.getX(), main.getY());
+
+    // Restringir el movimiento dentro del círculo de radio
+    PVector center = new PVector(width/2, height/2);
+    PVector offset = PVector.sub(mainPosition, center);
+    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+      offset.setMag(radioOrbita2 - anchoPersonaje/2);
+      mainPosition = PVector.add(center, offset);
+      main.setPosition(mainPosition.x, mainPosition.y);
+      main.setVelocity(0, 0);
+    }
+  }
+
+
+  void dibujarOrbitaCentro() {
+    pushMatrix();
+    translate(width / 2, height / 2); // Colocar el origen en el centro de la ventana
+
+    // Dibujar la órbita menor
+    noFill();
+    stroke(255);
+    ellipse(0, 0, radioOrbita * 2+125, radioOrbita * 2+125);
+    popMatrix();
+  }
+
+
+
+void movimientoEstrellas() {
+  float tiempo = millis() * 0.001; // Tiempo en segundos
+  float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
+  
+  for (int i = 0; i < enemigos.length; i++) {
+    FCircle enemigo = enemigos[i];
+    
+    // Calcular la posición en la órbita circular
+    float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
+    float x = width / 2 + cos(angulo) * radioOrbita2;
+    float y = height / 2 + sin(angulo) * radioOrbita2;
+    
+    enemigo.setPosition(x, y);
+    enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+  }
+}
 }
