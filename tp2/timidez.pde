@@ -159,8 +159,8 @@ class Timidez {
     float sizeFactor = map(distanciaMainCentro, 0, distanciaMinima, maxSize, minSize);
 
     // Ajustar el tamaño del cuerpo principal
-    main.setWidth(anchoPersonaje * sizeFactor);
-    main.setHeight(altoPersonaje * sizeFactor);
+    //main.setWidth(anchoPersonaje * sizeFactor);
+    //main.setHeight(altoPersonaje * sizeFactor);
 
     // Ajustar el tamaño de la imagen adjunta
     personaje.resize(int(anchoPersonaje * sizeFactor), int(altoPersonaje * sizeFactor));
