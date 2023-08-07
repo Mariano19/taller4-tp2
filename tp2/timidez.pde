@@ -33,21 +33,21 @@ class Timidez {
     //myBlob.vertex(-anchoPersonaje/2, altoPersonaje/1.5);
     //myBlob.vertex(600, 400);
     //myBlob.setStatic(true);
-  for (int i = 0; i < enemigos.length; i++) {
-    float angulo = TWO_PI / enemigos.length * i;
-    float x = width / 2 + cos(angulo) * radioOrbita;
-    float y = height / 2 + sin(angulo) * radioOrbita;
+    for (int i = 0; i < enemigos.length; i++) {
+      float angulo = TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita;
+      float y = height / 2 + sin(angulo) * radioOrbita;
 
-    enemigos[i] = new FCircle(sizeEstrella);
-    enemigos[i].setPosition(x, y);
-    enemigos[i].attachImage(estrella);
-    enemigos[i].setName("enemigo");
-    enemigos[i].setGrabbable(false);
+      enemigos[i] = new FCircle(sizeEstrella);
+      enemigos[i].setPosition(x, y);
+      enemigos[i].attachImage(estrella);
+      enemigos[i].setName("enemigo");
+      enemigos[i].setGrabbable(false);
 
-    mundo.add(enemigos[i]);
-    
-    // No es necesario crear y añadir FMouseJoint aquí, ya que deseas que los enemigos se muevan automáticamente.
-  }
+      mundo.add(enemigos[i]);
+
+      // No es necesario crear y añadir FMouseJoint aquí, ya que deseas que los enemigos se muevan automáticamente.
+    }
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
@@ -87,7 +87,7 @@ class Timidez {
   void actualizar() {
     fill(0, 0, 0, 80);
     rect(0, 0, width, height);
-
+    mapeoMain();
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
@@ -128,20 +128,43 @@ class Timidez {
 
 
 
-void movimientoEstrellas() {
-  float tiempo = millis() * 0.001; // Tiempo en segundos
-  float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
-  
-  for (int i = 0; i < enemigos.length; i++) {
-    FCircle enemigo = enemigos[i];
-    
-    // Calcular la posición en la órbita circular
-    float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
-    float x = width / 2 + cos(angulo) * radioOrbita2;
-    float y = height / 2 + sin(angulo) * radioOrbita2;
-    
-    enemigo.setPosition(x, y);
-    enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+  void movimientoEstrellas() {
+    float tiempo = millis() * 0.001; // Tiempo en segundos
+    float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
+
+    for (int i = 0; i < enemigos.length; i++) {
+      FCircle enemigo = enemigos[i];
+
+      // Calcular la posición en la órbita circular
+      float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita2;
+      float y = height / 2 + sin(angulo) * radioOrbita2;
+
+      enemigo.setPosition(x, y);
+      enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+    }
   }
-}
+
+  void mapeoMain() {
+    float minSize = 0.5; // Tamaño mínimo cuando está cerca de los enemigos
+    float maxSize = 1.0; // Tamaño normal cuando está lejos de los enemigos
+    float distanciaMinima = radioOrbita2 - anchoPersonaje / 2;
+
+    // Calcular la distancia entre el main y el centro
+    PVector mainPosition = new PVector(main.getX(), main.getY());
+    PVector center = new PVector(width / 2, height / 2);
+    float distanciaMainCentro = mainPosition.dist(center);
+
+    // Mapear el tamaño en función de la distancia al centro
+    float sizeFactor = map(distanciaMainCentro, 0, distanciaMinima, maxSize, minSize);
+
+    // Ajustar el tamaño del cuerpo principal
+    main.setWidth(anchoPersonaje * sizeFactor);
+    main.setHeight(altoPersonaje * sizeFactor);
+
+    // Ajustar el tamaño de la imagen adjunta
+    personaje.resize(int(anchoPersonaje * sizeFactor), int(altoPersonaje * sizeFactor));
+    main.attachImage(personaje);
+  }
+
 }
