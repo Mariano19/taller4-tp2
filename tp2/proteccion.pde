@@ -31,11 +31,11 @@ class Proteccion {
 
       enemigos[i] = new FCircle(sizeEstrella);
       enemigos[i].setPosition(x, y);
-      enemigos[i].setSensor(true); //desactivo colisiones
+      enemigos[i].setSensor(false); //desactivo colisiones
       enemigos[i].attachImage(estrella);
       enemigos[i].setName("enemigo");
       enemigos[i].setGrabbable(false);
-      mundo.add(enemigos[i]);
+      mundo.add(enemigos[i]);      
     }
     
     // Personaje principal
@@ -43,7 +43,6 @@ class Proteccion {
     main.setPosition(width/2, height/2);
     main.setStatic(true);
     main.attachImage(personaje);
-  
 
     // Anclaje
     ancla = new FCircle(radioOrbita*2);
@@ -77,7 +76,7 @@ class Proteccion {
     mundo.draw();
 
     dibujarOrbitaCentro();
-    movimientoEstrellas();
+    //movimientoEstrellas();
     verificarContacto();
   }
 
@@ -114,12 +113,7 @@ class Proteccion {
       
       // Verificar si el personaje principal está en contacto con el enemigo
       if (main.isTouchingBody(enemigo)) {
-        pushStyle();
-        fill(255,0,0);        
-        textSize(25);
-        text("ESTÁ PROTEGIENDO",width/2,height/2);
-        popStyle();
-        
+        //enemigo.addForce(5,0);
       }
     }
   }
