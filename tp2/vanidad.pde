@@ -18,13 +18,15 @@ class Vanidad {
   int i = 0;
   boolean mainTouching=false;
 
+  boolean[] collision = new boolean[enemigos.length];
+
   Vanidad() {
 
     pushStyle();
     pushMatrix();
     personaje.resize(120, 130);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    //mundo.setEdges(100);
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
@@ -87,7 +89,7 @@ class Vanidad {
     fill(0, 0, 0, 80);
     rect(0, 0, width, height);
     //aumentarTamaño();
-    limitePersonaje();
+    //limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
     mundo.drawDebug();
@@ -98,21 +100,22 @@ class Vanidad {
     movimientoEstrellas();
   }
 
+  /*
   void limitePersonaje() {
-    // Obtener la posición actual del main
-    PVector mainPosition = new PVector(main.getX(), main.getY());
-
-    // Restringir el movimiento dentro del círculo de radio
-    PVector center = new PVector(width/2, height/2);
-    PVector offset = PVector.sub(mainPosition, center);
-    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
-      offset.setMag(radioOrbita2 - anchoPersonaje/2);
-      mainPosition = PVector.add(center, offset);
-      main.setPosition(mainPosition.x, mainPosition.y);
-      main.setVelocity(0, 0);
-    }
-  }
-
+   // Obtener la posición actual del main
+   PVector mainPosition = new PVector(main.getX(), main.getY());
+   
+   // Restringir el movimiento dentro del círculo de radio
+   PVector center = new PVector(width/2, height/2);
+   PVector offset = PVector.sub(mainPosition, center);
+   if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+   offset.setMag(radioOrbita2 - anchoPersonaje/2);
+   mainPosition = PVector.add(center, offset);
+   main.setPosition(mainPosition.x, mainPosition.y);
+   main.setVelocity(0, 0);
+   }
+   }
+   */
 
   void dibujarOrbitaCentro() {
     pushMatrix();
@@ -133,14 +136,26 @@ class Vanidad {
 
     for (int i = 0; i < enemigos.length; i++) {
       FCircle enemigo = enemigos[i];
-
+      float factor = 8000;
       // Calcular la posición en la órbita circular
       float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
       float x = width / 2 + cos(angulo) * radioOrbita2;
       float y = height / 2 + sin(angulo) * radioOrbita2;
 
-      enemigo.setPosition(x, y);
-      enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+      if (detectarColision(enemigo)) {
+        collision[i] = true;
+      }
+
+      if (collision[i]) {
+        //float x = enemigo.getX();
+        enemigo.addImpulse(1000, 1000);
+        enemigo.setAngularVelocity(5);
+        enemigo.addForce(factor, factor);
+        enemigo.setVelocity(1000, 1000);
+      } else {
+        enemigo.setPosition(x, y);
+        enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+      }
     }
   }
 
@@ -157,11 +172,20 @@ class Vanidad {
     mainTouching = false;
   }
 
+  boolean detectarColision(FBody enemigo) {
+    if (main.isTouchingBody(enemigo)) {
+      println("anda", enemigo);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void aumentarTamaño() {
     if (main.getWidth() < 700) { // Evita que el objeto se vuelva demasiado grande
       println(main.getWidth());
-      float nuevoAncho = main.getWidth() + 10; // Aumenta el ancho
-      float nuevoAlto = main.getHeight() + 10; // Aumenta el alto
+      float nuevoAncho = main.getWidth() + 50; // Aumenta el ancho
+      float nuevoAlto = main.getHeight() + 50; // Aumenta el alto
 
       main.setWidth(nuevoAncho); // Actualiza el tamaño del objeto
       main.setHeight(nuevoAlto);
@@ -171,11 +195,6 @@ class Vanidad {
       popStyle();
       ajustarAncla(); // Ajusta la posición del objeto ancla
     } else if (main.getWidth() == 700) {
-      for (int i = 0; i < enemigos.length; i++) {
-        FCircle enemigo = enemigos[i];
-
-        enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
-      }
     }
   }
 
@@ -192,5 +211,35 @@ class Vanidad {
 
     // Actualiza la distancia de la cadena
     cadenaPersonaje.setLength(main.getWidth() / 2);
+  }
+
+  void reset() {
+
+    anchoPersonaje = 120;
+    altoPersonaje = 130;
+    sizeEstrella = 140;
+    radioOrbita = 325; // Radio de la órbita
+    radioOrbita2 = 385; // Radio de la órbita
+    i = 0;
+    mainTouching=false;
+    personaje.resize(120, 130);
+    main.setWidth(anchoPersonaje);
+    main.setHeight(altoPersonaje);
+    
+        for (int i = 0; i < enemigos.length; i++) {
+      float angulo = TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita;
+      float y = height / 2 + sin(angulo) * radioOrbita;
+
+      enemigos[i] = new FCircle(sizeEstrella);
+      enemigos[i].setPosition(x, y);
+      enemigos[i].attachImage(estrella);
+      enemigos[i].setName("enemigo");
+      enemigos[i].setGrabbable(true);
+      mundo.add(enemigos[i]);
+      collision[i] = false;
+    }
+    
+    
   }
 }

@@ -134,6 +134,7 @@ class Programa {
         estado = "menu";
         //RESETS
         desamparo.reset();
+        vanidad.reset();
         println("entro estado menu" );
       }
       //GoNext
@@ -141,6 +142,9 @@ class Programa {
         //return to start
         if (estado.equals("Empatia")) {
           estado = "menu";
+        }
+        if (estado.equals("Vanidad")){
+          vanidad.reset();
         }
         //Navigate
         for (int i = 0; i < estadosPosibles.length-1; i++) {        
