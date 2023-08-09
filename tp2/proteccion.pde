@@ -14,13 +14,15 @@ class Proteccion {
   int radioOrbita2 = 385; // Radio de la órbita
   int limiteExtendidoMain = 450;
   int i = 0;
+  boolean[] collision = new boolean[enemigos.length];  
+
 
   Proteccion() {
     pushStyle();
     pushMatrix();
     personaje.resize(anchoPersonaje, altoPersonaje);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    //mundo.setEdges(100);
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
@@ -35,9 +37,9 @@ class Proteccion {
       enemigos[i].attachImage(estrella);
       enemigos[i].setName("enemigo");
       enemigos[i].setGrabbable(false);
-      mundo.add(enemigos[i]);      
+      mundo.add(enemigos[i]);
     }
-    
+
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
@@ -51,15 +53,9 @@ class Proteccion {
     ancla.setGrabbable(false);
     ancla.setStatic(true);
 
-    //cadena personaje
-    cadenaPersonaje = new FDistanceJoint(main, ancla);
-    cadenaPersonaje.setLength(50);
-    cadenaPersonaje.setFrequency(50000);
-    cadenaPersonaje.setDrawable(false);
-
     mundo.add(ancla);
     mundo.add(main);
-    mundo.add(cadenaPersonaje);
+    
 
     popMatrix();
     popStyle();
@@ -71,13 +67,15 @@ class Proteccion {
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
+    
+
+    dibujarOrbitaCentro();
+    movimientoEstrellas();
+    //verificarContacto();
+    
     mundo.drawDebug();
     mundo.step();
     mundo.draw();
-
-    dibujarOrbitaCentro();
-    //movimientoEstrellas();
-    verificarContacto();
   }
 
   void limitePersonaje() {
@@ -107,14 +105,13 @@ class Proteccion {
     popMatrix();
   }
 
- void verificarContacto() {
-    for (int i = 0; i < enemigos.length; i++) {
-      FCircle enemigo = enemigos[i];
-      
-      // Verificar si el personaje principal está en contacto con el enemigo
-      if (main.isTouchingBody(enemigo)) {
-        //enemigo.addForce(5,0);
-      }
+
+  boolean detectarColision(FBody enemigo) {
+    if (main.isTouchingBody(enemigo)) {
+      println("anda", enemigo);
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -124,14 +121,27 @@ class Proteccion {
 
     for (int i = 0; i < enemigos.length; i++) {
       FCircle enemigo = enemigos[i];
-
+      float factor = 8000;
       // Calcular la posición en la órbita circular
       float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
       float x = width / 2 + cos(angulo) * radioOrbita2;
       float y = height / 2 + sin(angulo) * radioOrbita2;
 
-      enemigo.setPosition(x, y);
-      enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+      if (detectarColision(enemigo)) {
+        collision[i] = true;
+      } 
+      
+      if(collision[i]){
+        //float x = enemigo.getX();
+        enemigo.addImpulse(1000,1000);
+        enemigo.setAngularVelocity(5);
+        enemigo.addForce(factor, factor);
+        enemigo.setVelocity(1000,1000);
+      }      
+      else {
+        enemigo.setPosition(x, y);
+        enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+      }
     }
   }
 }
