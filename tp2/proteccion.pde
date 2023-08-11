@@ -17,6 +17,8 @@ class Proteccion {
   int radioOrbita2 = 385; // Radio de la órbita
   int limiteExtendidoMain = 450;
   int i = 0;
+  float velocidadX = random(-1000,1000);
+  float velocidadY = random(-1000,1000);
 
   boolean[] collision = new boolean[enemigos.length];
 
@@ -71,7 +73,7 @@ class Proteccion {
     ancla.setGrabbable(false);
     ancla.setStatic(true);
 
-    mundo.add(ancla);
+   // mundo.add(ancla);
     mundo.add(main);
 
 
@@ -129,6 +131,7 @@ class Proteccion {
     if (main.isTouchingBody(enemigo)) {
       println("anda", enemigo);
       return true;
+      
     } else {
       return false;
     }
@@ -138,6 +141,7 @@ class Proteccion {
     float tiempo = millis() * 0.0015; // Tiempo en segundos
     float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
 
+      
     for (int i = 0; i < enemigos.length; i++) {
       FCircle enemigo = enemigos[i];
       float factor = 8000;
@@ -145,17 +149,22 @@ class Proteccion {
       float angulo = tiempo * velocidadAngular  + TWO_PI / enemigos.length * i;
       float x = width / 2 + cos(angulo)  * radioOrbita2;
       float y = height / 2 + sin(angulo) * radioOrbita2;
+      
 
       if (detectarColision(enemigo)) {
         collision[i] = true;
+
       }
 
       if (collision[i]) {
         //float x = enemigo.getX();
-        enemigo.addImpulse(1000, 1000);
+        //enemigo.addImpulse(1000, 1000);
         enemigo.setAngularVelocity(5);
-        enemigo.addForce(factor, factor);
-        enemigo.setVelocity(1000, 1000);
+        //enemigo.addForce(factor, factor);
+        enemigo.setVelocity(width/2,height+400);
+        
+    
+        
       } else {
         enemigo.setPosition(x, y);
         enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa

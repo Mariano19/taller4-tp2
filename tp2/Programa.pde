@@ -82,9 +82,10 @@ class Programa {
     }
     if(estado.equals("Vanidad")){
        vanidad.touch();
+       
     }
     if(estado.equals("Desamparo")){
-       desamparo.click();
+      
     }
 
     if(estado != "menu"){
@@ -96,6 +97,7 @@ class Programa {
    if(estado.equals("Vanidad")){
        vanidad.release();
     }
+
   
   }
 
@@ -135,7 +137,7 @@ class Programa {
       if (isClicked(x, y)) {
         estado = "menu";
         //RESETS
-        desamparo.reset();
+        //desamparo.reset();
         vanidad.reset();
         acoso.reset();
         xenofobia.reset();

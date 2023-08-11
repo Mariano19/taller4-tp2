@@ -8,8 +8,6 @@ PImage estrella, estrellamala;
 PImage arrow, arrow2;
 PImage reset;
 
-
-
 void setup () {
   //orientation(LANDSCAPE); 
   //fullScreen();
@@ -35,9 +33,9 @@ void setup () {
 }
 
 void draw () {
-  //background(0);
   pushStyle();
-  tint(255, 100);  // Apply transparency without changing color
+  fill(#171717,50);
+  rect(0,0,width,height);
   //image(bg, 0, 0);
   popStyle();
   programa.actualizar();
@@ -57,7 +55,3 @@ void mousePressed() {
 void mouseReleased(){
   programa.release();
 }
-
-//void keyPressed() {
-//  programa.teclado();
-//}
