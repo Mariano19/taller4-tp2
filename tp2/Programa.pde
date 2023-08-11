@@ -14,6 +14,7 @@ class Programa {
   Mediacion mediacion;
   Xenofobia xenofobia;
   Proteccion proteccion;
+ 
 
   Programa() {
     estado = "caratula";
@@ -28,6 +29,7 @@ class Programa {
     mediacion = new Mediacion();
     xenofobia = new Xenofobia();
     proteccion = new Proteccion();
+    
     //botones
     navigationButtons = new NavigationButtons();
   }
@@ -53,7 +55,7 @@ class Programa {
       acoso.actualizar();
     }
     if(estado.equals("Desinterés")){
-      desinteres.actualizar();
+      //desinteres.actualizar();
     }
     if(estado.equals("Empatia")){
       empatia.actualizar();
@@ -135,6 +137,11 @@ class Programa {
         //RESETS
         desamparo.reset();
         vanidad.reset();
+        acoso.reset();
+        xenofobia.reset();
+        empatia.reset();
+        timidez.reset();
+        proteccion.reset();
         println("entro estado menu" );
       }
       //GoNext
@@ -142,10 +149,10 @@ class Programa {
         //return to start
         if (estado.equals("Empatia")) {
           estado = "menu";
-        }
+        }/*
         if (estado.equals("Vanidad")){
           vanidad.reset();
-        }
+        }*/
         //Navigate
         for (int i = 0; i < estadosPosibles.length-1; i++) {        
           if (estadosPosibles[i].equals(estado)){

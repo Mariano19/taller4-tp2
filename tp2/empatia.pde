@@ -7,8 +7,10 @@ class Empatia {
   FDistanceJoint cadenaPersonaje;
   FMouseJoint cadena;
   float posX, posY;
-  int anchoPersonaje = 120;
-  int altoPersonaje = 130;
+  float anguloRotacion = 0;
+  //120 y 130
+  int anchoPersonaje = 120-20;
+  int altoPersonaje = 130-20;
   int sizeEstrella = 140;
   int radioOrbita = 325; // Radio de la órbita
   int radioOrbita2 = 385; // Radio de la órbita
@@ -37,13 +39,12 @@ class Empatia {
       enemigos[i].setGrabbable(false);
       mundo.add(enemigos[i]);
     }
-    
+
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
+    main.setRotation(0);
     main.setStatic(true);
-    main.attachImage(personaje);
-  
 
     // Anclaje
     ancla = new FCircle(radioOrbita*2);
@@ -72,13 +73,18 @@ class Empatia {
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
 
     dibujarOrbitaCentro();
     movimientoEstrellas();
     verificarContacto();
+
+    pushStyle();
+    personaje.resize(int(anchoPersonaje), int(altoPersonaje));
+    main.attachImage(personaje);
+    popStyle();
   }
 
   void limitePersonaje() {
@@ -108,19 +114,26 @@ class Empatia {
     popMatrix();
   }
 
- void verificarContacto() {
+  void verificarContacto() {
     for (int i = 0; i < enemigos.length; i++) {
       FCircle enemigo = enemigos[i];
-      
+
+
       // Verificar si el personaje principal está en contacto con el enemigo
       if (main.isTouchingBody(enemigo)) {
+        /*
         pushStyle();
-        fill(255,0,0);        
-        textSize(25);
-        text("ESTÁ EMPATIZANDO",width/2,height/2);
-        popStyle();
-        
-        main.setPosition(enemigo.getX(),enemigo.getY());
+         fill(255, 0, 0);
+         textSize(25);
+         text("ESTÁ EMPATIZANDO", width/2, height/2);
+         println(anguloRotacion);
+         popStyle();
+         */
+        anguloRotacion += radians(1);
+        main.setRotation(anguloRotacion);
+        main.setPosition(enemigo.getX(), enemigo.getY());
+      }else{
+        //main.setRotation(0);
       }
     }
   }
@@ -140,5 +153,10 @@ class Empatia {
       enemigo.setPosition(x, y);
       enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
     }
+  }
+  
+  void reset(){
+    main.setPosition(width/2, height/2);
+    main.setRotation(0);
   }
 }

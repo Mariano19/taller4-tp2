@@ -89,36 +89,36 @@ class Acoso {
     popMatrix();
     popStyle();
   }
-  
-void actualizar() {
-  fill(0, 0, 0, 80);
-  rect(0, 0, width, height);
-  
-  limitePersonaje();
-  
-  // Dibujar objetos y actualizar simulación
-  //mundo.drawDebug();
-  mundo.step();
-  mundo.draw();
-  
-  dibujarOrbitaCentro();
-  movimientoEstrellas();
-}
 
-void limitePersonaje() {
-  // Obtener la posición actual del main
-  PVector mainPosition = new PVector(main.getX(), main.getY());
-  
-  // Restringir el movimiento dentro del círculo de radio
-  PVector center = new PVector(width/2, height/2);
-  PVector offset = PVector.sub(mainPosition, center);
-  if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
-    offset.setMag(radioOrbita2 - anchoPersonaje/2);
-    mainPosition = PVector.add(center, offset);
-    main.setPosition(mainPosition.x, mainPosition.y);
-    main.setVelocity(0, 0);
+  void actualizar() {
+    fill(0, 0, 0, 80);
+    rect(0, 0, width, height);
+
+    limitePersonaje();
+
+    // Dibujar objetos y actualizar simulación
+    //mundo.drawDebug();
+    mundo.step();
+    mundo.draw();
+
+    dibujarOrbitaCentro();
+    movimientoEstrellas();
   }
-}
+
+  void limitePersonaje() {
+    // Obtener la posición actual del main
+    PVector mainPosition = new PVector(main.getX(), main.getY());
+
+    // Restringir el movimiento dentro del círculo de radio
+    PVector center = new PVector(width/2, height/2);
+    PVector offset = PVector.sub(mainPosition, center);
+    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+      offset.setMag(radioOrbita2 - anchoPersonaje/2);
+      mainPosition = PVector.add(center, offset);
+      main.setPosition(mainPosition.x, mainPosition.y);
+      main.setVelocity(0, 0);
+    }
+  }
 
   void dibujarOrbitaCentro() {
     pushMatrix();
@@ -148,5 +148,17 @@ void limitePersonaje() {
         }
       }
     }
+  }
+
+  void reset() {
+    posX= 0;
+    posY=0;
+    anchoPersonaje = 120;
+    altoPersonaje = 130;
+    sizeEstrella = 140;
+    radioOrbita = 325; // Radio de la órbita
+    radioOrbita2 = 385; // Radio de la órbita
+    i = 0;
+    main.setPosition(width/2, height/2);
   }
 }

@@ -3,10 +3,13 @@ class Proteccion {
 
   FBox main;
   FCircle ancla;
-  FCircle[] enemigos = new FCircle[5];
+  FCircle[] enemigos = new FCircle[3];
+  FCircle[] noEnemigos = new FCircle[3];
   FDistanceJoint cadenaPersonaje;
   FMouseJoint cadena;
+
   float posX, posY;
+  float offset = 2;
   int anchoPersonaje = 120;
   int altoPersonaje = 130;
   int sizeEstrella = 140;
@@ -14,7 +17,8 @@ class Proteccion {
   int radioOrbita2 = 385; // Radio de la órbita
   int limiteExtendidoMain = 450;
   int i = 0;
-  boolean[] collision = new boolean[enemigos.length];  
+
+  boolean[] collision = new boolean[enemigos.length];
 
 
   Proteccion() {
@@ -34,12 +38,26 @@ class Proteccion {
       enemigos[i] = new FCircle(sizeEstrella);
       enemigos[i].setPosition(x, y);
       enemigos[i].setSensor(false); //desactivo colisiones
-      enemigos[i].attachImage(estrella);
+      enemigos[i].attachImage(estrellamala);
       enemigos[i].setName("enemigo");
       enemigos[i].setGrabbable(false);
       mundo.add(enemigos[i]);
     }
 
+    for (int i = 0; i < noEnemigos.length; i++) {
+      
+      float angulo = TWO_PI  / noEnemigos.length * i ;
+      float x = width / 2 + cos(angulo) * radioOrbita;
+      float y = height / 2 + sin(angulo) * radioOrbita ;
+
+      noEnemigos[i] = new FCircle(sizeEstrella);
+      noEnemigos[i].setPosition(x, y);
+      noEnemigos[i].setSensor(true); //desactivo colisiones
+      noEnemigos[i].attachImage(estrella);
+      noEnemigos[i].setName("noEnemigo");
+      noEnemigos[i].setGrabbable(false);
+      mundo.add(noEnemigos[i]);
+    }
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
@@ -55,7 +73,7 @@ class Proteccion {
 
     mundo.add(ancla);
     mundo.add(main);
-    
+
 
     popMatrix();
     popStyle();
@@ -67,12 +85,13 @@ class Proteccion {
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
-    
+
 
     dibujarOrbitaCentro();
     movimientoEstrellas();
+    movimientoNoEnemigo();
     //verificarContacto();
-    
+
     mundo.drawDebug();
     mundo.step();
     mundo.draw();
@@ -116,32 +135,74 @@ class Proteccion {
   }
 
   void movimientoEstrellas() {
-    float tiempo = millis() * 0.001; // Tiempo en segundos
+    float tiempo = millis() * 0.0015; // Tiempo en segundos
     float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
 
     for (int i = 0; i < enemigos.length; i++) {
       FCircle enemigo = enemigos[i];
       float factor = 8000;
       // Calcular la posición en la órbita circular
-      float angulo = tiempo * velocidadAngular + TWO_PI / enemigos.length * i;
-      float x = width / 2 + cos(angulo) * radioOrbita2;
+      float angulo = tiempo * velocidadAngular  + TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo)  * radioOrbita2;
       float y = height / 2 + sin(angulo) * radioOrbita2;
 
       if (detectarColision(enemigo)) {
         collision[i] = true;
-      } 
-      
-      if(collision[i]){
+      }
+
+      if (collision[i]) {
         //float x = enemigo.getX();
-        enemigo.addImpulse(1000,1000);
+        enemigo.addImpulse(1000, 1000);
         enemigo.setAngularVelocity(5);
         enemigo.addForce(factor, factor);
-        enemigo.setVelocity(1000,1000);
-      }      
-      else {
+        enemigo.setVelocity(1000, 1000);
+      } else {
         enemigo.setPosition(x, y);
         enemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
       }
     }
   }
+
+  void movimientoNoEnemigo() {
+    float tiempo = millis() * 0.001; // Tiempo en segundos
+    float velocidadAngular = 0.5; // Velocidad angular en radianes por segundo
+    
+    for (int i = 0; i < noEnemigos.length; i++) {
+      FCircle noenemigo = noEnemigos[i];
+
+      // Calcular la posición en la órbita circular
+      float angulo = tiempo * velocidadAngular + TWO_PI / noEnemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita2;
+      float y = height / 2 + sin(angulo) * radioOrbita2;
+
+      noenemigo.setPosition(x, y);
+      noenemigo.setVelocity(0, 0); // Detener cualquier velocidad previa
+    }
+  }
+  
+    void reset() {
+    anchoPersonaje = 120;
+    altoPersonaje = 130;
+    sizeEstrella = 140;
+    //mainTouching=false;
+    main.setPosition(width/2,height/2);
+    personaje.resize(120, 130);
+    //main.setSize(anchoPersonaje);
+    //main.setHeight(altoPersonaje);
+
+    for (int i = 0; i < enemigos.length; i++) {
+      float angulo = TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita;
+      float y = height / 2 + sin(angulo) * radioOrbita;
+      
+      enemigos[i].setPosition(x, y);
+      enemigos[i].attachImage(estrellamala);
+      //enemigos[i].setName("enemigo");
+      enemigos[i].setGrabbable(true);
+      mundo.add(enemigos[i]);
+      collision[i] = false;
+      enemigos[i].setStatic(false);
+    }
+  }
+  
 }

@@ -4,9 +4,10 @@ Programa programa;
 PImage bg;
 PImage personaje;
 PImage orbitaVanidad;
-PImage estrella;
+PImage estrella, estrellamala;
 PImage arrow, arrow2;
 PImage reset;
+
 
 
 void setup () {
@@ -18,11 +19,13 @@ void setup () {
   bg = loadImage("/data/bg.jpg");
   personaje = loadImage("/data/personaje.png");
   estrella = loadImage("/data/estrella.png");
+  estrellamala = loadImage("/data/estrellamala.png");
   orbitaVanidad = loadImage("/data/orbitavanidad.png");
   arrow = loadImage("/data/arrow.png");
   arrow2 = loadImage("/data/arrow2.png");
   reset = loadImage("/data/reset.png");
   bg.resize(1920/2, 0);
+  
   orbitaVanidad.resize(1920/4, 0);
   imageMode(CORNER);
   Fisica.init(this);

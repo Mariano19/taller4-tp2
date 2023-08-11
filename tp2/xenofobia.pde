@@ -98,7 +98,7 @@ class Xenofobia {
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
 
@@ -152,4 +152,17 @@ class Xenofobia {
       }
     }
   }
+  
+    void reset() {
+    posX= 0;
+    posY=0;
+    anchoPersonaje = 120;
+    altoPersonaje = 130;
+    sizeEstrella = 140;
+    radioOrbita = 325; // Radio de la órbita
+    radioOrbita2 = 385; // Radio de la órbita
+    i = 0;
+    main.setPosition(width/2, height/2);
+  }
+  
 }

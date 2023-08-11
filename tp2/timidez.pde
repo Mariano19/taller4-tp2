@@ -168,5 +168,10 @@ class Timidez {
     main.attachImage(personaje);
     popStyle();
   }
+  
+  void reset(){
+    main.setPosition(width/2,height/2);
+    personaje.resize(120,130);
+  }
 
 }
