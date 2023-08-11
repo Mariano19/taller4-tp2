@@ -121,6 +121,14 @@ class Desamparo {
   }
   
   void reset(){
-    
+        for (int i = 0; i < enemigos.length; i++) {
+      float angulo = TWO_PI / enemigos.length * i;
+      float x = width / 2 + cos(angulo) * radioOrbita *1.5 ;
+      float y = height / 2 + sin(angulo) * radioOrbita*1.5;
+
+
+      enemigos[i].setPosition(x, y);
+
+    }
   }
 }

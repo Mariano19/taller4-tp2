@@ -144,6 +144,7 @@ class Programa {
         empatia.reset();
         timidez.reset();
         proteccion.reset();
+        desamparo.reset();
         println("entro estado menu" );
       }
       //GoNext
