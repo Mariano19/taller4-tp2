@@ -1,7 +1,7 @@
 class Timidez {
   FWorld mundo;
 
-
+  PImage[] personajes = new PImage[3];
   FBox main;
   FCircle ancla;
   FCircle[] enemigos = new FCircle[5];
@@ -25,7 +25,18 @@ class Timidez {
     mundo = new FWorld();
     mundo.setEdges(100);
     mundo.setGravity(0, 0);
-    posX = posY = 0;
+    posX = posY = 0;    
+    
+  
+    // normal size
+    personajes[0] = loadImage("/data/personaje.png");
+    personajes[0].resize(120, 130);
+    // small size
+    personajes[1] = loadImage("/data/personaje.png");
+    personajes[1].resize(55, 60);
+    // dynamic size
+    personajes[2] = loadImage("/data/personaje.png");
+    personajes[2].resize(120, 130);
 
 
     //myBlob.vertex(0, 0);
@@ -52,7 +63,7 @@ class Timidez {
     main = new FBox(anchoPersonaje, altoPersonaje);
     main.setPosition(width/2, height/2);
     main.setStatic(true);
-    main.attachImage(personaje);
+    main.attachImage(personajes[0]);
 
 
     // Anclaje
@@ -111,6 +122,8 @@ class Timidez {
       mainPosition = PVector.add(center, offset);
       main.setPosition(mainPosition.x, mainPosition.y);
       main.setVelocity(0, 0);
+      
+      main.attachImage(personajes[1]);
     }
   }
 
@@ -161,17 +174,35 @@ class Timidez {
     // Ajustar el tamaño del cuerpo principal
     //main.setWidth(anchoPersonaje * sizeFactor);
     //main.setHeight(altoPersonaje * sizeFactor);
+    
 
     // Ajustar el tamaño de la imagen adjunta
     pushStyle();
-    personaje.resize(int(anchoPersonaje * sizeFactor), int(altoPersonaje * sizeFactor));
-    main.attachImage(personaje);
+    personajes[2].resize(int(anchoPersonaje * sizeFactor), int(altoPersonaje * sizeFactor));
+    main.attachImage(personajes[2]);
     popStyle();
+    
+    if(distanciaMainCentro < 50){
+      main.attachImage(personajes[0]); 
+      //personaje = loadImage("/data/personaje.png");
+      //personaje.resize(120,130);
+    }
+    println("distancia",distanciaMainCentro);     
+    if(distanciaMainCentro > 320){
+      main.attachImage(personajes[1]);      
+      personajes[2] = loadImage("/data/personaje.png");
+      personajes[2].resize(55,60);
+       
+    }
   }
   
   void reset(){
+    //mundo.clear();
     main.setPosition(width/2,height/2);
-    personaje.resize(120,130);
+    personaje.resize(120,130);  
+    main.attachImage(personajes[0]);
+    anchoPersonaje = 120;
+    altoPersonaje = 130;    
   }
 
 }
