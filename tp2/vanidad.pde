@@ -22,7 +22,6 @@ class Vanidad {
   boolean[] collision = new boolean[enemigos.length];
 
   Vanidad() {
-
     pushStyle();
     pushMatrix();
     personaje.resize(120, 130);
@@ -76,7 +75,7 @@ class Vanidad {
     mundo.add(ancla);
     mundo.add(main);
     //mundo.add(cadenaPersonaje);
-
+    reset();
     popMatrix();
     popStyle();
   }

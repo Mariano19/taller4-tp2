@@ -4,7 +4,8 @@ class Mediacion {
   
   FBox main;
   FCircle ancla;
-  FCircle[] enemigos = new FCircle[5];
+  FCircle[] enemigos = new FCircle[3];
+  FCircle[] enemigos2 = new FCircle[3];
   FDistanceJoint cadenaPersonaje;  
   FMouseJoint cadena;
   //ArrayList<FDistanceJoint> cadenas;
@@ -15,6 +16,8 @@ class Mediacion {
   int sizeEstrella = 140; 
   int radioOrbita = 325; // Radio de la órbita
   int i = 0;
+  int y = 0;
+  int radioOrbita2 = 385; // Radio de la órbita
   //FPoly myBlob = new FPoly();
   
   
@@ -56,6 +59,27 @@ class Mediacion {
       i++;
     }
     
+    for (FCircle enemigo : enemigos2){      
+      float localX = radioOrbita * cos( i ) -sizeEstrella/2;      
+      float localY = radioOrbita * sin( i ) -sizeEstrella/2;
+      float angulo = 1000*i;
+      float x = cos(angulo);
+      float y = sin(angulo);
+
+      enemigo = new FCircle(sizeEstrella); 
+      enemigo.setPosition(width/2, height/2);
+      enemigo.attachImage(estrellamala);
+      enemigo.setName("enemigo2");
+      mundo.add(enemigo);
+      
+      cadena = new FMouseJoint(enemigo,width/2, height/2);
+      cadena.setDrawable(false);
+      mundo.add(cadena);
+      //cadenas[i].setLength(50);
+      //mundo.add(cadenas[i]);
+      y++;
+    }
+    
     
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
@@ -94,7 +118,7 @@ class Mediacion {
   }
   
   void actualizar() {
-    
+    limitePersonaje();
     fill(0,0,0,80);
     rect(0,0,width,height);
     //background(255);
@@ -106,7 +130,7 @@ class Mediacion {
     
     dibujarOrbitaCentro();    
     movimientoEstrellas();
-    //limitePersonaje();
+    
     println("mouse", mouseX, mouseY);
   }
   
@@ -122,17 +146,18 @@ class Mediacion {
   }
   
   void limitePersonaje() {
-    float posX = main.getX();
-    float posY = main.getY();
-    float dist = dist(main.getX(), main.getY(), ancla.getX(), ancla.getY());
-    if(dist> 250) {
-      main.setPosition(mouseX, mouseY);
-    } else{
-      //main.setPosition();
-    }
-    println("dist", dist);
+    // Obtener la posición actual del main
+    PVector mainPosition = new PVector(main.getX(), main.getY());
 
-  //posX > width/2-radioOrbita && posX < width/2+radioOrbita
+    // Restringir el movimiento dentro del círculo de radio
+    PVector center = new PVector(width/2, height/2);
+    PVector offset = PVector.sub(mainPosition, center);
+    if (offset.mag() > radioOrbita2 - anchoPersonaje/2) {
+      offset.setMag(radioOrbita2 - anchoPersonaje/2);
+      mainPosition = PVector.add(center, offset);
+      main.setPosition(mainPosition.x, mainPosition.y);
+      main.setVelocity(0, 0);
+    }
   }
   
   
@@ -144,10 +169,18 @@ class Mediacion {
       String nombre = enemigo.getName();
       if (nombre != null){
         if (nombre.equals("enemigo")){
-          float dx = main.getX() - enemigo.getX();
-          float dy = main.getY() - enemigo.getY();
+          float dx = enemigo.getX() - main.getX();
+          float dy = enemigo.getY() - main.getY();
           enemigo.addImpulse(300, 300);
           enemigo.setAngularVelocity(5);          
+          enemigo.addForce(dx * factor,dy * factor);
+        }
+        
+        if (nombre.equals("enemigo2")){
+          float dx = enemigo.getX() - main.getX();
+          float dy = enemigo.getY() - main.getY();
+          enemigo.addImpulse(-300, -300);
+          enemigo.setAngularVelocity(-5);          
           enemigo.addForce(dx * factor,dy * factor);
         }
       }
@@ -155,5 +188,22 @@ class Mediacion {
   }
   
   void reset(){
+    ArrayList<FBody> cuerpos = mundo.getBodies();
+    for (FBody enemigo : cuerpos) {
+      String nombre = enemigo.getName();
+      if (nombre != null) {
+        if (nombre.equals("enemigo") || nombre.equals("enemigo2")) {
+          enemigo.setPosition(width/2, height/2);
+        }
+      }
+    }
+    posX= 0;
+    posY=0;
+    anchoPersonaje = 120;
+    altoPersonaje = 130;
+    sizeEstrella = 140;
+    radioOrbita = 325; // Radio de la órbita
+    i = 0;
+    main.setPosition(width/2, height/2);
   }
 }
