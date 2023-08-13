@@ -1,7 +1,7 @@
 class Programa {
   //Clases
   String estado;
-  String[] estadosPosibles = {"Acoso", "Vanidad", "Desinteres", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
+  String[] estadosPosibles = {"Acoso", "Vanidad", "Desinterés", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
   Caratula caratula;
   Menu menu;
   Vanidad vanidad;
@@ -71,7 +71,7 @@ class Programa {
     }
     if(estado != "menu" && estado != "caratula"){
       navigationButtons.goBack();
-      navigationButtons.goNext();
+      //navigationButtons.goNext();
       navigationButtons.reset();
     }
   }
@@ -103,32 +103,32 @@ class Programa {
 
   
   class NavigationButtons {
-    int x = width-65;
-    int y = 10;
+    int x = width-120;
+    int y = 20;
     
     boolean isClicked(int localX, int localY) {
       println(x,y, mouseX, mouseY );
-      return mouseX > localX && mouseX < localX + 50  && mouseY > localY && mouseY < localY +50 ;
+      return mouseX > localX && mouseX < localX + 100  && mouseY > localY && mouseY < localY +100 ;
     }
     
     void goBack() {
       pushStyle();
       imageMode(CORNER);
-      image(arrow, x, y, 50, 50);      
+      image(arrow, x, y, 100, 100);      
       popStyle();
     }
     
-    void goNext() {
+    /*void goNext() {
       pushStyle();
       imageMode(CORNER);
       image(arrow2, x, y+60 , 50, 50);      
       popStyle();
-    }
+    }*/
     
-    void reset() {
+    void reset() {      
       pushStyle();
       imageMode(CORNER);
-      image(reset, x, y+120 , 50, 50);      
+      image(reset, x, y+120 , 100, 100);      
       popStyle();
     }
     
@@ -147,15 +147,24 @@ class Programa {
         desamparo.reset();
         println("entro estado menu" );
       }
+      if (isClicked(x, y+120)) {
+        println("entro reset");
+        vanidad.reset();
+        acoso.reset();
+        xenofobia.reset();
+        empatia.reset();
+        timidez.reset();
+        proteccion.reset();
+        desamparo.reset();
+        desinteres.reset();
+        mediacion.reset();        
+      }
       //GoNext
-      if (isClicked(x, y+60)) { 
+      /*if (isClicked(x, y+60)) { 
         //return to start
         if (estado.equals("Empatia")) {
           estado = "menu";
         }/*
-        if (estado.equals("Vanidad")){
-          vanidad.reset();
-        }*/
         //Navigate
         for (int i = 0; i < estadosPosibles.length-1; i++) {        
           if (estadosPosibles[i].equals(estado)){
@@ -166,7 +175,7 @@ class Programa {
         }       
         
         println("estado", estado );
-      }
+      }*/
     }
   }
 }

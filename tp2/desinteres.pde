@@ -1,3 +1,5 @@
 class Desinteres {
 
+  void reset(){
+  }
 }

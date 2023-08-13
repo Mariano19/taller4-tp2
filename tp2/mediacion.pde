@@ -153,4 +153,7 @@ class Mediacion {
       }
     }
   }
+  
+  void reset(){
+  }
 }
