@@ -55,7 +55,7 @@ class Programa {
       acoso.actualizar();
     }
     if(estado.equals("Desinterés")){
-      //desinteres.actualizar();
+      desinteres.actualizar();
     }
     if(estado.equals("Empatia")){
       empatia.actualizar();
@@ -97,8 +97,6 @@ class Programa {
    if(estado.equals("Vanidad")){
        vanidad.release();
     }
-
-  
   }
 
   
@@ -137,7 +135,7 @@ class Programa {
       if (isClicked(x, y)) {
         estado = "menu";
         //RESETS
-        //desamparo.reset();
+        desinteres.reset();
         vanidad.reset();
         acoso.reset();
         xenofobia.reset();

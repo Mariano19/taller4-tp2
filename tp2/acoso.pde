@@ -1,7 +1,5 @@
 class Acoso {
   FWorld mundo;
-
-
   FBox main;
   FCircle ancla;
   FCircle[] enemigos = new FCircle[5];
@@ -151,6 +149,16 @@ class Acoso {
   }
 
   void reset() {
+    ArrayList<FBody> cuerpos = mundo.getBodies();
+    for (FBody enemigo : cuerpos) {
+      String nombre = enemigo.getName();
+      if (nombre != null) {
+        if (nombre.equals("enemigo")) {
+          enemigo.setPosition(width/2, height/2);
+        }
+      }
+    }
+    
     posX= 0;
     posY=0;
     anchoPersonaje = 120;
