@@ -2,7 +2,7 @@ class Caratula {
   float anchoOrbita = 700;
   float altoOrbita = 700;
   float r = 0;
-  int timeOut = 200;
+  int timeOut = 2000;
   
   // orbit declarations
   float posX, posY;
@@ -33,9 +33,10 @@ class Caratula {
     fill(255);
     stroke(255);
     textAlign(CENTER, CENTER);
-    textSize(50);
+    textFont(montserratBold);
+    textSize(70);
     text("TP 2", width/2, height/2-40);
-    textSize(25);
+    textSize(22);
     text("FLORES, LOAYZA, ORELLANA, PINTO, QUATTROCCHI ", width/2, height/2+15);
     popStyle();
   }

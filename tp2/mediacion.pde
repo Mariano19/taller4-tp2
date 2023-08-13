@@ -28,7 +28,7 @@ class Mediacion {
     pushMatrix();
     personaje.resize(120, 130);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    mundo.setEdges();
     mundo.setGravity(0,0);
     posX = posY = 0;
     
@@ -127,6 +127,11 @@ class Mediacion {
     //mundo.drawDebug();
     mundo.step();
     mundo.draw();
+    
+    if(dist(width/2,height/2,mouseX,mouseY) < 500){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
     
     dibujarOrbitaCentro();    
     movimientoEstrellas();

@@ -7,24 +7,29 @@ PImage orbitaVanidad;
 PImage estrella, estrellamala;
 PImage arrow, arrow2;
 PImage reset;
+PFont montserrat;
+PFont montserratBold;
 
 void setup () {
+  montserrat = createFont("Montserrat-VariableFont_wght.ttf", 20);
+  textFont(montserrat);
+  montserratBold = createFont("Montserrat-Bold.ttf", 20);
   //orientation(LANDSCAPE); 
-  //fullScreen();
+  fullScreen();
   noStroke();
   fill(0);
-  size (1920, 1080);
-  bg = loadImage("/data/bg.jpg");
-  personaje = loadImage("/data/personaje.png");
-  estrella = loadImage("/data/estrella.png");
-  estrellamala = loadImage("/data/estrellamala.png");
-  orbitaVanidad = loadImage("/data/orbitavanidad.png");
-  arrow = loadImage("/data/arrow.png");
-  arrow2 = loadImage("/data/arrow2.png");
-  reset = loadImage("/data/reset.png");
+  //size (1920, 1080);
+  bg = loadImage("bg.jpg");
+  personaje = loadImage("personaje.png");
+  estrella = loadImage("estrella.png");
+  estrellamala = loadImage("estrellamala.png");
+  orbitaVanidad = loadImage("orbitavanidad.png");
+  arrow = loadImage("arrow.png");
+  arrow2 = loadImage("arrow2.png");
+  reset = loadImage("reset.png");
   bg.resize(1920/2, 0);
   
-  orbitaVanidad.resize(1920/4, 0);
+  //orbitaVanidad.resize(1920/4, 0);
   imageMode(CORNER);
   Fisica.init(this);
 
@@ -44,7 +49,7 @@ void draw () {
   textSize(14);
   textAlign(LEFT,CENTER);
   fill(255,0,0);
-  text(frameRate, 10,10);
+  //text(frameRate, 10,10);
   popStyle();
 }
 

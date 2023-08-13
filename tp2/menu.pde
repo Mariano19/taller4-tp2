@@ -2,7 +2,7 @@ class Menu {
 
   int numButtons = 9;
   Button[] buttons = new Button[numButtons];
-  String[] buttonLabels = {"Acoso", "Vanidad", "Desinterés", "Mediación", "Xenofobia", "Timidez", "Protección", "Desamparo", "Empatia"};
+  String[] buttonLabels = {"Acoso", "Vanidad", "Desinteres", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
   int margin = 20; // Margen entre botones
   
   Menu() {
@@ -82,6 +82,7 @@ class Menu {
       // Dibujar la etiqueta del botón
       textAlign(CENTER, CENTER);
       fill(255);
+      textSize(70);
       text(label, x, y, width, height);
     }
 

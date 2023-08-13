@@ -23,19 +23,19 @@ class Timidez {
     pushMatrix();
     personaje.resize(120, 130);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    mundo.setEdges();
     mundo.setGravity(0, 0);
     posX = posY = 0;    
     
   
     // normal size
-    personajes[0] = loadImage("/data/personaje.png");
+    personajes[0] = loadImage("personaje.png");
     personajes[0].resize(120, 130);
     // small size
-    personajes[1] = loadImage("/data/personaje.png");
+    personajes[1] = loadImage("personaje.png");
     personajes[1].resize(55, 60);
     // dynamic size
-    personajes[2] = loadImage("/data/personaje.png");
+    personajes[2] = loadImage("personaje.png");
     personajes[2].resize(120, 130);
 
 
@@ -102,9 +102,14 @@ class Timidez {
     limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
+    
+    if(dist(width/2,height/2,mouseX,mouseY) < 500){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
 
     dibujarOrbitaCentro();
     movimientoEstrellas();
@@ -190,7 +195,7 @@ class Timidez {
     println("distancia",distanciaMainCentro);     
     if(distanciaMainCentro > 320){
       main.attachImage(personajes[1]);      
-      personajes[2] = loadImage("/data/personaje.png");
+      personajes[2] = loadImage("personaje.png");
       personajes[2].resize(55,60);
        
     }

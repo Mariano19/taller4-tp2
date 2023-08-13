@@ -28,7 +28,7 @@ class Proteccion {
     pushMatrix();
     personaje.resize(anchoPersonaje, altoPersonaje);
     mundo = new FWorld();
-    //mundo.setEdges(100);
+    //mundo.setEdges();
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
@@ -88,15 +88,27 @@ class Proteccion {
 
     // Dibujar objetos y actualizar simulación
 
-
+    if(dist(width/2,height/2,mouseX,mouseY) < 500){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
+    
     dibujarOrbitaCentro();
     movimientoEstrellas();
     movimientoNoEnemigo();
     //verificarContacto();
 
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
+    
+    pushStyle();
+    stroke(0);
+    strokeWeight(40); 
+    //fill(255);
+    noFill();
+    rect(0,0,width,height);
+    popStyle();
   }
 
   void limitePersonaje() {

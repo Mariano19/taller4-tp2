@@ -25,14 +25,15 @@ class Vanidad {
     pushStyle();
     pushMatrix();
     personaje.resize(120, 130);
-    mundo = new FWorld();
+    mundo = new FWorld();    
+    //mundo.setEdges(-1000 ,1000, 1000, 10000);
     mundo.setGravity(0, 0);
     posX = posY = 0;
     
      for (int i=0; i < 12; i++){
       int nuevoAncho = 120 + i * 50; // Aumenta el ancho
       int nuevoAlto = 130 + i * 50; // Aumenta el alto
-      personajes[i] = loadImage("/data/personaje.png");
+      personajes[i] = loadImage("personaje.png");
       personajes[i].resize(nuevoAncho, nuevoAlto);
       
     }
@@ -85,7 +86,6 @@ class Vanidad {
     rect(0, 0, width, height);
     
  
-    //aumentarTamaño();
     //limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
@@ -96,6 +96,13 @@ class Vanidad {
     dibujarOrbitaCentro();
     movimientoEstrellas();
 
+    pushStyle();
+    stroke(0);
+    strokeWeight(40); 
+    //fill(255);
+    noFill();
+    rect(0,0,width,height);
+    popStyle();
   }
 
 
@@ -148,7 +155,7 @@ class Vanidad {
 
     if (PVector.dist(mousePos, mainPos) < main.getSize() / 2) {
       mainTouching = true;
-      aumentarTamaño();
+      aumentarTamanio();
     }
   }
   void release() {
@@ -164,7 +171,7 @@ class Vanidad {
     }
   }
 
-  void aumentarTamaño() {
+  void aumentarTamanio() {
     if (main.getSize() < 650) { // Evita que el objeto se vuelva demasiado grande
       println(main.getSize());
       float nuevoAncho = main.getSize() + 50; // Aumenta el ancho

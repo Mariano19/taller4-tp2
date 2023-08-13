@@ -16,15 +16,18 @@ class Xenofobia {
   int radioOrbita = 325; // Radio de la órbita
   int radioOrbita2 = 385; // Radio de la órbita
   int i = 0;
+  int startTime = millis(); //do this first thing in setup
+  int currentTime = 0;
 
   Xenofobia() {
     pushStyle();
     pushMatrix();
     personaje.resize(120, 130);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    mundo.setEdges();
     mundo.setGravity(0, 0);
     posX = posY = 0;
+    
 
 
     //myBlob.vertex(0, 0);
@@ -55,9 +58,10 @@ class Xenofobia {
     }
     // Personaje principal
     main = new FBox(anchoPersonaje, altoPersonaje);
-    main.setPosition(width/2, height/2);
+    main.setPosition(mouseX, mouseY);
     main.setStatic(true);
     main.attachImage(personaje);
+    main.setGrabbable(true);
 
 
     // Anclaje
@@ -87,6 +91,7 @@ class Xenofobia {
 
     popMatrix();
     popStyle();
+    
   }
 
 
@@ -101,7 +106,14 @@ class Xenofobia {
     //mundo.drawDebug();
     mundo.step();
     mundo.draw();
-
+    
+    // contador
+    currentTime = millis() - startTime;    
+    if(dist(width/2,height/2,mouseX,mouseY) < 500){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
+    
     dibujarOrbitaCentro();
     movimientoEstrellas();
   }
@@ -173,6 +185,10 @@ class Xenofobia {
     radioOrbita2 = 385; // Radio de la órbita
     i = 0;
     main.setPosition(width/2, height/2);
+    currentTime = 0;
+    startTime = millis();
+    mouseX = width/2;
+    mouseY = height/2;
   }
   
 }

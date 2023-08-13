@@ -22,7 +22,7 @@ class Empatia {
     pushMatrix();
     personaje.resize(anchoPersonaje, altoPersonaje);
     mundo = new FWorld();
-    mundo.setEdges(100);
+    mundo.setEdges();
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
@@ -85,6 +85,11 @@ class Empatia {
     personaje.resize(int(anchoPersonaje), int(altoPersonaje));
     main.attachImage(personaje);
     popStyle();
+    
+    if(dist(width/2,height/2,mouseX,mouseY) < 400){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
   }
 
   void limitePersonaje() {

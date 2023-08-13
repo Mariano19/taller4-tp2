@@ -1,7 +1,7 @@
 class Programa {
   //Clases
   String estado;
-  String[] estadosPosibles = {"Acoso", "Vanidad", "Desinterés", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
+  String[] estadosPosibles = {"Acoso", "Vanidad", "Desinteres", "Mediacion", "Xenofobia", "Timidez", "Proteccion", "Desamparo", "Empatia"};
   Caratula caratula;
   Menu menu;
   Vanidad vanidad;
@@ -54,19 +54,19 @@ class Programa {
     if(estado.equals("Acoso")){
       acoso.actualizar();
     }
-    if(estado.equals("Desinterés")){
+    if(estado.equals("Desinteres")){
       desinteres.actualizar();
     }
     if(estado.equals("Empatia")){
       empatia.actualizar();
     }
-    if(estado.equals("Mediación")){
+    if(estado.equals("Mediacion")){
       mediacion.actualizar();
     }
     if(estado.equals("Xenofobia")){
       xenofobia.actualizar();
     }
-       if(estado.equals("Protección")){
+       if(estado.equals("Proteccion")){
       proteccion.actualizar();
     }
     if(estado != "menu" && estado != "caratula"){

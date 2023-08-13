@@ -22,6 +22,7 @@ class Desamparo {
     pushMatrix();
     personaje.resize(120, 130);
     mundo = new FWorld();
+    mundo.setEdges();
     mundo.setGravity(0, 0);
     posX = posY = 0;
 
@@ -77,9 +78,14 @@ class Desamparo {
     //limitePersonaje();
     dibujarOrbitaCentro();
     atraccionCentro();
+    
+    if(dist(width/2,height/2,mouseX,mouseY) < 500){
+      println("entro");
+      main.setPosition(mouseX, mouseY);
+    }
 
     // Dibujar objetos y actualizar simulación
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
   }
@@ -121,7 +127,7 @@ class Desamparo {
   }
   
   void reset(){
-        for (int i = 0; i < enemigos.length; i++) {
+    for (int i = 0; i < enemigos.length; i++) {
       float angulo = TWO_PI / enemigos.length * i;
       float x = width / 2 + cos(angulo) * radioOrbita *1.5 ;
       float y = height / 2 + sin(angulo) * radioOrbita*1.5;
