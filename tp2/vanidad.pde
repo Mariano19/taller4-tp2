@@ -1,8 +1,7 @@
 class Vanidad {
   FWorld mundo;
 
-  String[] imageNames = { "puddle-red.png", "puddle-green.png", "puddle-purple.png" };
-  PImage[] personajes = new PImage[12];
+  PImage[] personajes = new PImage[15];
   FCircle main;
   FCircle ancla;
   FCircle[] enemigos = new FCircle[5];
@@ -76,7 +75,7 @@ class Vanidad {
 
     mundo.add(ancla);
     mundo.add(main);
-    mundo.add(cadenaPersonaje);
+    //mundo.add(cadenaPersonaje);
 
     popMatrix();
     popStyle();
@@ -91,7 +90,7 @@ class Vanidad {
     //limitePersonaje();
 
     // Dibujar objetos y actualizar simulación
-    mundo.drawDebug();
+    //mundo.drawDebug();
     mundo.step();
     mundo.draw();
     borrarMundo();
@@ -167,22 +166,13 @@ class Vanidad {
   }
 
   void aumentarTamaño() {
-    if (main.getSize() < 700) { // Evita que el objeto se vuelva demasiado grande
+    if (main.getSize() < 650) { // Evita que el objeto se vuelva demasiado grande
       println(main.getSize());
       float nuevoAncho = main.getSize() + 50; // Aumenta el ancho
-      float nuevoAlto = main.getSize() + 50; // Aumenta el alto
-      
-      
-     
-      
-
       main.setSize(nuevoAncho); // Actualiza el tamaño del objeto
-
       //main.setHeight(nuevoAlto);
-      pushStyle();
-      
+      pushStyle();      
       main.attachImage(personajes[factor]);
-      personaje.resize(int(nuevoAncho),0);
       popStyle();
           
       ajustarAncla(); // Ajusta la posición del objeto ancla
@@ -223,6 +213,7 @@ class Vanidad {
 
 
   void reset() {
+    mundo.clear();
     anchoPersonaje = 120;
     altoPersonaje = 130;
     sizeEstrella = 140;
@@ -232,6 +223,7 @@ class Vanidad {
     factor = 1;
     main.attachImage(personajes[0]);
     main.setSize(anchoPersonaje);
+    ancla.setPosition(width/2, height/2);
     //main.setHeight(altoPersonaje);
 
     for (int i = 0; i < enemigos.length; i++) {
@@ -243,9 +235,9 @@ class Vanidad {
       enemigos[i].attachImage(estrella);
       enemigos[i].setName("enemigo");
       enemigos[i].setGrabbable(true);
-      mundo.add(enemigos[i]);
       collision[i] = false;
       enemigos[i].setStatic(false);
+      mundo.add(enemigos[i]);
     }
   }
 }
