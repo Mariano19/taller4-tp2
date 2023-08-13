@@ -231,11 +231,11 @@ class Vanidad {
       float x = width / 2 + cos(angulo) * radioOrbita;
       float y = height / 2 + sin(angulo) * radioOrbita;
       
+      collision[i] = false;
       enemigos[i].setPosition(x, y);
       enemigos[i].attachImage(estrella);
       enemigos[i].setName("enemigo");
-      enemigos[i].setGrabbable(true);
-      collision[i] = false;
+      enemigos[i].setGrabbable(true);      
       enemigos[i].setStatic(false);
       mundo.add(enemigos[i]);
     }
