@@ -79,11 +79,7 @@ class Desamparo {
     dibujarOrbitaCentro();
     atraccionCentro();
     
-    if(dist(width/2,height/2,mouseX,mouseY) < 500){
-      println("entro");
-      main.setPosition(mouseX, mouseY);
-    }
-
+    
     // Dibujar objetos y actualizar simulación
     //mundo.drawDebug();
     mundo.step();
