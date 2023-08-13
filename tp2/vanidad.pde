@@ -1,7 +1,8 @@
 class Vanidad {
   FWorld mundo;
 
-
+  String[] imageNames = { "puddle-red.png", "puddle-green.png", "puddle-purple.png" };
+  PImage[] personajes = new PImage[12];
   FCircle main;
   FCircle ancla;
   FCircle[] enemigos = new FCircle[5];
@@ -9,6 +10,7 @@ class Vanidad {
   FMouseJoint cadena;
   //ArrayList<FDistanceJoint> cadenas;
   //FRevoluteJoint rAncla;
+  int factor = 1;
   float posX, posY;
   //120 y 130
   int anchoPersonaje = 120;
@@ -28,6 +30,14 @@ class Vanidad {
     mundo = new FWorld();
     mundo.setGravity(0, 0);
     posX = posY = 0;
+    
+     for (int i=0; i < 12; i++){
+      int nuevoAncho = 120 + i * 50; // Aumenta el ancho
+      int nuevoAlto = 130 + i * 50; // Aumenta el alto
+      personajes[i] = loadImage("/data/personaje.png");
+      personajes[i].resize(nuevoAncho, nuevoAlto);
+      
+    }
 
 
     for (int i = 0; i < enemigos.length; i++) {
@@ -47,7 +57,7 @@ class Vanidad {
     main.setPosition(width/2, height/2);
     main.setStatic(true);
     main.setGrabbable(false);
-    main.attachImage(personaje);
+    main.attachImage(personajes[0]);
     
 
 
@@ -161,16 +171,22 @@ class Vanidad {
       println(main.getSize());
       float nuevoAncho = main.getSize() + 50; // Aumenta el ancho
       float nuevoAlto = main.getSize() + 50; // Aumenta el alto
+      
+      
+     
+      
 
       main.setSize(nuevoAncho); // Actualiza el tamaño del objeto
 
       //main.setHeight(nuevoAlto);
       pushStyle();
-      personaje.resize(int(nuevoAncho), int(nuevoAlto));
-      main.attachImage(personaje);
+      
+      main.attachImage(personajes[factor]);
+      personaje.resize(int(nuevoAncho),0);
       popStyle();
           
       ajustarAncla(); // Ajusta la posición del objeto ancla
+      factor++;
     } else if (main.getSize() == 700) {
     }
   }
@@ -213,6 +229,8 @@ class Vanidad {
     mainTouching=false;
     main.setPosition(width/2,height/2);
     personaje.resize(120, 130);
+    factor = 1;
+    main.attachImage(personajes[0]);
     main.setSize(anchoPersonaje);
     //main.setHeight(altoPersonaje);
 
